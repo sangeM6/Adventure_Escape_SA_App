@@ -1,4 +1,5 @@
 
+import React from "react";
 import { DarkTheme, DefaultTheme, ThemeProvider } from "expo-router";
 import { useColorScheme } from "react-native";
 
