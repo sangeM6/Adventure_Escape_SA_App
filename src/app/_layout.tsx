@@ -1,10 +1,15 @@
-import { Stack } from "expo-router";
 
-export default function RootLayout() {
+import { DarkTheme, DefaultTheme, ThemeProvider } from "expo-router";
+import { useColorScheme } from "react-native";
+
+import AppTabs from "@/components/app-tabs";
+
+export default function TabLayout() {
+  const colorScheme = useColorScheme();
+
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ title: "Overview" }} />
-      <Stack.Screen name="packages" options={{ title: "Packages" }} />
-    </Stack>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <AppTabs />
+    </ThemeProvider>
   );
 }

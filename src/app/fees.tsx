@@ -315,41 +315,6 @@ export default function Fees() {
           </View>
         </View>
 
-        {/* FOOTER */}
-        <View style={styles.footer}>
-          <Image
-            source={require("../../assets/images/logo.jpg")}
-            style={styles.footerLogo}
-            resizeMode="contain"
-          />
-
-          <Text style={styles.footerTagline}>
-            Explore. Discover. Experience.
-          </Text>
-
-          <Text style={styles.footerHeading}>QUICK LINKS</Text>
-
-          <Text
-            style={styles.footerLink}
-            onPress={() => router.push("/")}
-          >
-            Home
-          </Text>
-
-          <Text style={styles.footerLink}>About</Text>
-          <Text style={styles.footerLink}>Overview</Text>
-          <Text style={styles.footerLink}>Packages</Text>
-          <Text style={styles.footerLink}>Fees</Text>
-          <Text style={styles.footerLink}>Contact</Text>
-
-          <Text style={styles.footerHeading}>CONTACT US</Text>
-          <Text style={styles.footerText}>Western Cape, South Africa</Text>
-
-          <Text style={styles.copyright}>
-            © 2026 Adventure Escape SA. All Rights Reserved.
-          </Text>
-        </View>
-
       </ScrollView>
     </SafeAreaView>
   );
@@ -643,50 +608,4 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
 
-  footer: {
-    backgroundColor: GREEN,
-    paddingHorizontal: 22,
-    paddingTop: 28,
-    paddingBottom: 20,
-    alignItems: "center",
-  },
-
-  footerLogo: {
-    width: 150,
-    height: 60,
-    marginBottom: 8,
-  },
-
-  footerTagline: {
-    color: WHITE,
-    fontSize: 14,
-    marginBottom: 25,
-  },
-
-  footerHeading: {
-    color: ORANGE,
-    fontSize: 15,
-    fontWeight: "bold",
-    marginTop: 18,
-    marginBottom: 12,
-  },
-
-  footerLink: {
-    color: WHITE,
-    fontSize: 14,
-    paddingVertical: 5,
-  },
-
-  footerText: {
-    color: WHITE,
-    fontSize: 13,
-    marginBottom: 15,
-  },
-
-  copyright: {
-    color: WHITE,
-    fontSize: 11,
-    textAlign: "center",
-    marginTop: 25,
-  },
 });

@@ -9,644 +9,407 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter, type Href } from "expo-router";
+import { Href, useRouter } from "expo-router";
 
 const GREEN = "#14532D";
 const ORANGE = "#F4A261";
 const WHITE = "#FFFFFF";
 const CHARCOAL = "#1F2933";
 const BLUE = "#0077B6";
+const LIGHT_BLUE = "#DEF1F5";
 
 const menuItems = [
-  { label: "Home", route: "/" },
-  { label: "About", route: "/about" },
-  { label: "Overview", route: "/overview" },
-  { label: "Packages", route: "/packages" },
-  { label: "Fees", route: "/fees" },
-  { label: "Contact", route: "/contact" },
-] as const;
+  { title: "Home", route: "/" as Href },
+  { title: "About", route: "/about" as Href },
+  { title: "Overview", route: "/overview" as Href },
+  { title: "Packages", route: "/packages" as Href },
+  { title: "Fees", route: "/fees" as Href },
+  { title: "Contact", route: "/contact" as Href },
+];
+
+const features = [
+  {
+    icon: require("../../assets/images/hiking-icon.png"),
+    title: "Adventure",
+    description: "Exciting outdoor experiences.",
+  },
+  {
+    icon: require("../../assets/images/canoeing.png"),
+    title: "Explore",
+    description: "Discover beautiful destinations.",
+  },
+  {
+    icon: require("../../assets/images/bouldering.png"),
+    title: "Safety",
+    description: "Enjoy adventures with guidance.",
+  },
+  {
+    icon: require("../../assets/images/wave (1).png"),
+    title: "Memories",
+    description: "Create unforgettable moments.",
+  },
+];
+const natureHighlights = [
+  {
+    title: "NATURE",
+    description: "Discover the beauty of the Western Cape.",
+  },
+  {
+    title: "ADVENTURE",
+    description: "Find exciting experiences in the great outdoors.",
+  },
+  {
+    title: "DISCOVER",
+    description: "Make unforgettable memories along the way.",
+  },
+];
+
+const activities = [
+  {
+    title: "Hiking Tours",
+    image: require("../../assets/images/hiking.jpg"),
+    icon: require("../../assets/images/hiking (2).png"),
+  },
+  {
+    title: "Kayaking",
+    image: require("../../assets/images/kayaking.jpg"),
+    icon: require("../../assets/images/canoeing.png"),
+  },
+  {
+    title: "Ziplining",
+    image: require("../../assets/images/ziplining.jpg"),
+    icon: require("../../assets/images/zipline (1).png"),
+  },
+  {
+    title: "Rock Climbing",
+    image: require("../../assets/images/climbing.jpg"),
+    icon: require("../../assets/images/bouldering.png"),
+  },
+  {
+    title: "Beach Adventures",
+    image: require("../../assets/images/penguins.jpg"),
+    icon: require("../../assets/images/wave (1).png"),
+  },
+];
+
+const reasons = [
+  {
+    title: "Beautiful Destinations",
+    description:
+      "Explore amazing outdoor destinations throughout the Western Cape.",
+  },
+  {
+    title: "Exciting Activities",
+    description:
+      "Choose from a range of exciting adventures for different interests.",
+  },
+  {
+    title: "Memorable Experiences",
+    description:
+      "Create special memories with friends, family, and colleagues.",
+  },
+];
 
 export default function HomeScreen() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Navigation Bar */}
-      <View style={styles.header}>
-        {/* White Logo Section */}
-        <View style={styles.brandSection}>
-          <Image
-            source={require("../../assets/images/logo.jpg")}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-
-          <View style={styles.brandText}>
-            <Text style={styles.brandName}>ADVENTURE</Text>
-
-            <View style={styles.brandSubtitleRow}>
-              <View style={styles.orangeLine} />
-              <Text style={styles.brandSubtitle}>ESCAPE</Text>
-              <View style={styles.orangeLine} />
-            </View>
-          </View>
-        </View>
-        {/*Diagonal White Edge*/}
-        <View style={styles.diagonalEdge} />
-        {/* Green Menu Section */}
-        <View style={styles.menuSection}>
-          <Pressable
-            style={styles.menuButton}
-            onPress={() => setMenuOpen(!menuOpen)}
-            accessibilityRole="button"
-            accessibilityLabel={
-              menuOpen ? "Close navigation menu" : "Open navigation menu"
-            }
-          >
+    <SafeAreaView style={styles.safeArea} edges={["top"]}>
+      {/* Navigation */}
+      <View style={styles.navbar}>
+               <Pressable
+          onPress={() => router.push("/" as Href)}
+          accessibilityRole="button"
+        >
+          <View style={styles.brandContainer}>
             <Image
-              source={require("../../assets/images/menu.png")}
-              style={styles.menuIcon}
+              source={require("../../assets/images/logo.jpg")}
+              style={styles.logo}
               resizeMode="contain"
             />
-          </Pressable>
-        </View>
+
+            <View style={styles.brandText}>
+              <Text style={styles.brandAdventure}>ADVENTURE</Text>
+
+              <View style={styles.brandEscapeRow}>
+                <View style={styles.brandLine} />
+                <Text style={styles.brandEscape}>ESCAPE SA</Text>
+                <View style={styles.brandLine} />
+              </View>
+            </View>
+          </View>
+        </Pressable>
+
+        <Pressable
+          onPress={() => setMenuOpen(!menuOpen)}
+          style={styles.menuButton}
+          accessibilityRole="button"
+          accessibilityLabel="Toggle navigation menu"
+        >
+          <Image
+            source={require("../../assets/images/menu.png")}
+            style={styles.menuIcon}
+            resizeMode="contain"
+          />
+        </Pressable>
       </View>
 
-          {/* Navigation Dropdown */}
       {menuOpen && (
-        <View style={styles.menu}>
+        <View style={styles.menuDropdown}>
           {menuItems.map((item) => (
             <Pressable
-              key={item.label}
+              key={item.title}
               style={styles.menuItem}
               onPress={() => {
                 setMenuOpen(false);
-                router.push(item.route as Href);
+                router.push(item.route);
               }}
             >
-              <Text style={styles.menuText}>{item.label}</Text>
+              <Text style={styles.menuItemText}>{item.title}</Text>
             </Pressable>
           ))}
         </View>
       )}
 
-      {/* Home Page Content */}
-      <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.hero}>
-          <ImageBackground
-            source={require("../../assets/images/hero.png")}
-            style={styles.hero}
-            imageStyle={styles.heroImage}
-          >
-            <View>
-              <Text style={styles.heroTitle}>EXPLORE. DISCOVER.</Text>
-              <Text style={styles.heroSubtitle}>EXPERIENCE</Text>
-              <Text style={styles.heroDescription}>
-                Adventure Escape SA offers exciting outdoor {"\n"}
-                adventures throughout the Western Cape.
-              </Text>
+      <ScrollView
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Hero Section */}
+        <ImageBackground
+          source={require("../../assets/images/hero.png")}
+          style={styles.hero}
+          imageStyle={styles.heroImage}
+        >
+          <View style={styles.heroOverlay}>
+            <Text style={styles.heroTitle}>EXPLORE. DISCOVER.</Text>
 
-              <Pressable style={styles.primaryButton}>
-                <Text style={styles.primaryButtonText}>Explore Packages</Text>
-              </Pressable>
+            <Text style={styles.heroSubtitle}>EXPERIENCE</Text>
 
-              <Pressable style={styles.secondaryButton}>
-                <Text style={styles.secondaryButtonText}>Get a Quotation</Text>
-              </Pressable>
-            </View>
-          </ImageBackground>
-          {/* Features Section */}
-          <View style={styles.featuresSection}>
-            {/* Feature 1 */}
-            <View style={styles.feature}>
-              <Image
-                source={require("../../assets/images/mountain (2).png")}
-                style={styles.featureIcon}
-                resizeMode="contain"
-              />
+            <View style={styles.orangeLine} />
 
-              <Text style={styles.natureTitle}>NATURE</Text>
-
-              <Text style={styles.natureDescription}>
-                {" "}
-                Experience the beauty of the great outdoors.
-              </Text>
-            </View>
-            <View style={styles.featureDivider} />
-
-            {/* Feature 2 */}
-            <View style={styles.feature}>
-              <Image
-                source={require("../../assets/images/wave.png")}
-                style={styles.featureIcon}
-                resizeMode="contain"
-              />
-              <Text style={styles.adventureTitle}>ADVENTURE</Text>
-              <Text style={styles.adventureDescription}>
-                Thrilling activities for every adventure.
-              </Text>
-            </View>
-            <View style={styles.featureDivider} />
-            {/* Feature 3 */}
-            <View style={styles.feature}>
-              <Image
-                source={require("../../assets/images/multiple-users-silhouette (1).png")}
-                style={styles.featureIcon}
-                resizeMode="contain"
-              />
-              <Text style={styles.groupsTitle}>GROUPS</Text>
-              <Text style={styles.groupsDescription}>
-                Perfect for schools, corporate & families.
-              </Text>
-            </View>
-            <View style={styles.featureDivider} />
-
-            {/* Feature 4 */}
-            <View style={styles.feature}>
-              <Image
-                source={require("../../assets/images/security.png")}
-                style={styles.featureIcon}
-                resizeMode="contain"
-              />
-              <Text style={styles.reliableTitle}>SAFE & RELIABLE</Text>
-
-              <Text style={styles.reliableDescription}>
-                Your safety is our top priority.
-              </Text>
-            </View>
-          </View>
-          <View style={styles.activitiesSection}>
-          <Text style={styles.activitiesHeading}>OUR ACTIVITIES</Text>
-  <Text style={styles.activitiesSubtitle}>
-    CHOOSE YOUR ADVENTURE
-  </Text>
-
-  <View style={styles.activitiesUnderline} />
-
-  <View style={styles.activitiesGrid}>
-    <View style={styles.activityCard}>
-      <Image
-        source={require("../../assets/images/hiking.jpg")}
-        style={styles.activityImage}
-        resizeMode="cover"
-      />
-
-      <View style={styles.activityIcon}>
-        <Image
-          source={require("../../assets/images/hiking-icon.png")}
-          style={styles.activityIconImage}
-          resizeMode="contain"
-        />
-      </View>
-
-      <Text style={styles.activityTitle}>HIKING</Text>
-    </View>
-
-    <View style={styles.activityCard}>
-      <Image
-        source={require("../../assets/images/kayaking.jpg")}
-        style={styles.activityImage}
-        resizeMode="cover"
-      />
-
-      <View style={styles.activityIcon}>
-        <Image
-          source={require("../../assets/images/canoeing.png")}
-          style={styles.activityIconImage}
-          resizeMode="contain"
-        />
-      </View>
-
-      <Text style={styles.activityTitle}>KAYAKING</Text>
-    </View>
-
-    <View style={styles.activityCard}>
-      <Image
-        source={require("../../assets/images/ziplining.jpg")}
-        style={styles.activityImage}
-        resizeMode="cover"
-      />
-
-      <View style={styles.activityIcon}>
-        <Image
-          source={require("../../assets/images/zipline (1).png")}
-          style={styles.activityIconImage}
-          resizeMode="contain"
-        />
-      </View>
-
-      <Text style={styles.activityTitle}>ZIPLINING</Text>
-    </View>
-
-    <View style={styles.activityCard}>
-      <Image
-        source={require("../../assets/images/climbing.jpg")}
-        style={styles.activityImage}
-        resizeMode="cover"
-      />
-
-      <View style={styles.activityIcon}>
-        <Image
-          source={require("../../assets/images/bouldering.png")}
-          style={styles.activityIconImage}
-          resizeMode="contain"
-        />
-      </View>
-
-      <Text style={styles.activityTitle}>ROCK CLIMBING</Text>
-    </View>
-
-    <View style={styles.activityCard}>
-      <Image
-        source={require("../../assets/images/penguins.jpg")}
-        style={styles.activityImage}
-        resizeMode="cover"
-      />
-
-      <View style={styles.activityIcon}>
-        <Image
-          source={require("../../assets/images/wave.png")}
-          style={styles.activityIconImage}
-          resizeMode="contain"
-        />
-      </View>
-
-      <Text style={styles.activityTitle}>BEACH</Text>
-    </View>
-  </View>
-</View>
-</View>
-              {/* Why Choose Us Section */}
-        <View style={styles.whyChooseUsSection}>
-          {/* Introduction */}
-          <View style={styles.whyChooseUsIntro}>
-            <Text style={styles.whyChooseUsHeading}>
-              WHY CHOOSE US?
+            <Text style={styles.heroDescription}>
+              Adventure Escape SA offers exciting outdoor adventures
+              throughout the Western Cape.
             </Text>
 
-            <Text style={styles.whyChooseUsIntroText}>
-              We create unforgettable experiences that connect people with
-              nature while ensuring safety, fun and lasting memories.
-            </Text>
+            <Pressable
+              style={styles.primaryButton}
+              onPress={() => router.push("/packages" as Href)}
+              accessibilityRole="button"
+            >
+              <Text style={styles.primaryButtonText}>Explore Packages</Text>
+            </Pressable>
+
+            <Pressable
+              style={styles.secondaryButton}
+              onPress={() => router.push("/contact" as Href)}
+              accessibilityRole="button"
+            >
+              <Text style={styles.secondaryButtonText}>Get a Quotation</Text>
+            </Pressable>
           </View>
+        </ImageBackground>
 
-          {/* Orange Divider */}
-          <View style={styles.whyChooseUsDivider} />
+        {/* Features Section */}
+        <View style={styles.featuresSection}>
+          <Text style={styles.sectionHeading}>YOUR NEXT ADVENTURE</Text>
 
-          {/* Four Benefits */}
-          <View style={styles.whyChooseUsBenefits}>
-            {/* Experienced Guides */}
-            <View style={styles.whyChooseUsBenefit}>
-              <Image
-                source={require("../../assets/images/multiple-users-silhouette.png")}
-                style={styles.whyChooseUsIcon}
-                resizeMode="contain"
-              />
-
-              <Text style={styles.whyChooseUsCardTitle}>
-                EXPERIENCED GUIDES
-              </Text>
-
-              <Text style={styles.whyChooseUsCardText}>
-                Trained professionals passionate about the outdoors.
-              </Text>
-            </View>
-
-            {/* Quality Service */}
-            <View style={styles.whyChooseUsBenefit}>
-              <Image
-                source={require("../../assets/images/medal.png")}
-                style={styles.whyChooseUsIcon}
-                resizeMode="contain"
-              />
-
-              <Text style={styles.whyChooseUsCardTitle}>
-                QUALITY SERVICE
-              </Text>
-
-              <Text style={styles.whyChooseUsCardText}>
-                We deliver the best adventure experiences for every client.
-              </Text>
-            </View>
-
-            {/* Local Expertise */}
-            <View style={styles.whyChooseUsBenefit}>
-              <Image
-                source={require("../../assets/images/location.png")}
-                style={styles.whyChooseUsIcon}
-                resizeMode="contain"
-              />
-
-              <Text style={styles.whyChooseUsCardTitle}>
-                LOCAL EXPERTISE
-              </Text>
-
-              <Text style={styles.whyChooseUsCardText}>
-                We know the Western Cape like no one else.
-              </Text>
-            </View>
-
-            {/* Custom Packages */}
-            <View style={styles.whyChooseUsBenefit}>
-              <Text style={styles.whyChooseUsHeart}>♥</Text>
-
-              <Text style={styles.whyChooseUsCardTitle}>
-                CUSTOM PACKAGES
-              </Text>
-
-              <Text style={styles.whyChooseUsCardText}>
-                Tailored experiences for your group’s unique needs.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-      {/* Footer */}
-<View style={styles.footer}>
-  {/* Brand Column */}
-  <View style={styles.footerBrandColumn}>
-    <View style={styles.footerBrandRow}>
-      <Image
-        source={require("../../assets/images/logo.jpg")}
-        style={styles.footerLogo}
-        resizeMode="contain"
-      />
-
-      <View style={styles.footerBrandTextBlock}>
-        <Text style={styles.footerBrandName}>
-          ADVENTURE
-        </Text>
-
-        <View style={styles.footerBrandSubtitleRow}>
-          <View style={styles.footerOrangeLine} />
-
-          <Text style={styles.footerBrandSubtitle}>
-            ESCAPE SA
+          <Text style={styles.sectionSubtitle}>
+            Discover what makes us special
           </Text>
 
-          <View style={styles.footerOrangeLine} />
+          <View style={styles.featuresGrid}>
+            {features.map((feature) => (
+              <View style={styles.featureCard} key={feature.title}>
+                <Image
+                  source={feature.icon}
+                  style={styles.featureIcon}
+                  resizeMode="contain"
+                />
+
+                <Text style={styles.featureTitle}>{feature.title}</Text>
+
+                <Text style={styles.featureDescription}>
+                  {feature.description}
+                </Text>
+              </View>
+            ))}
+          </View>
         </View>
-      </View>
-    </View>
 
-    <Text style={styles.footerTagline}>
-      Explore. Discover. Experience.
-    </Text>
-  </View>
+        {/* Our Activities Section */}
+        <View style={styles.activitiesSection}>
+          <Text style={styles.activitiesHeading}>OUR ACTIVITIES</Text>
 
-  {/* Divider */}
-  <View style={styles.footerVerticalDivider} />
+          <Text style={styles.activitiesSubtitle}>
+            CHOOSE YOUR ADVENTURE
+          </Text>
 
-  {/* Quick Links */}
-  <View style={styles.footerLinksColumn}>
-    <Text style={styles.footerHeading}>
-      QUICK LINKS
-    </Text>
+          <View style={styles.activitiesUnderline} />
 
-    {menuItems.map((item) => (
-      <Pressable
-        key={item.label}
-        style={styles.footerLinkButton}
-        onPress={() => router.push(item.route as Href)}
-      >
-        <Text style={styles.footerLink}>
-          {item.label}
-        </Text>
-      </Pressable>
-    ))}
-  </View>
+          <View style={styles.activitiesGrid}>
+            {activities.map((activity) => (
+              <View style={styles.activityCard} key={activity.title}>
+                <Image
+                  source={activity.image}
+                  style={styles.activityImage}
+                  resizeMode="cover"
+                />
 
-  {/* Divider */}
-  <View style={styles.footerVerticalDivider} />
+                <View style={styles.activityIconContainer}>
+                  <Image
+                    source={activity.icon}
+                    style={styles.activityIcon}
+                    resizeMode="contain"
+                  />
+                </View>
 
-  {/* Contact Us */}
-  <View style={styles.footerContactColumn}>
-    <Text style={styles.footerHeading}>
-      CONTACT US
-    </Text>
+                <Text style={styles.activityTitle}>{activity.title}</Text>
+              </View>
+            ))}
+          </View>
 
-    <View style={styles.footerContactRow}>
-      <Image
-        source={require("../../assets/images/phone-call.png")}
-        style={styles.footerContactIcon}
-        resizeMode="contain"
-      />
+         
+        </View>
 
-      <Text style={styles.footerText}>
-        +27 12 345 6789
-      </Text>
-    </View>
-
-    <View style={styles.footerContactRow}>
-      <Image
-        source={require("../../assets/images/email.png")}
-        style={styles.footerContactIcon}
-        resizeMode="contain"
-      />
-
-      <Text style={styles.footerText}>
-        info@adventureescapesa.co.za
-      </Text>
-    </View>
-
-    <View style={styles.footerContactRow}>
-      <Image
-        source={require("../../assets/images/location.png")}
-        style={styles.footerContactIcon}
-        resizeMode="contain"
-      />
-
-      <Text style={styles.footerText}>
-        Western Cape, South Africa
-      </Text>
-    </View>
-  </View>
-
-  {/* Copyright */}
-  <View style={styles.footerBottom}>
-    <View style={styles.footerDivider} />
-
-    <Text style={styles.footerCopyright}>
-      © Adventure Escape SA. All rights reserved.
-    </Text>
-  </View>
-</View>
       
 
+      
       </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
     backgroundColor: WHITE,
   },
 
-  /* Navigation Bar */
-  header: {
-    height: 85,
-    flexDirection: "row",
-    alignItems: "stretch",
+  navbar: {
+    height: 70,
     backgroundColor: GREEN,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 18,
   },
-brandSection: {
-  width: 150,
-  backgroundColor: WHITE,
-  flexDirection: "row",
-  alignItems: "center",
-  paddingLeft: 6,
-  // gap: 4,
-  zIndex: 1,
-
-},
 
   logo: {
-    width: 38,
-    height: 38,
-
-},
-
-  brandText: {
-    justifyContent: "center",
-  },
-
-  brandName: {
-    color: GREEN,
-    fontSize: 15,
-    fontWeight: "800",
-    letterSpacing: 0.5,
-  },
-
- brandSubtitleRow: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: 3,
-  marginTop: 2,
-
-},
- brandSubtitle: {
-  color: BLUE,
-  fontSize: 9,
-  fontWeight: "700",
-  letterSpacing: 1,
-
-},
-
-  orangeLine: {
-    width: 10,
-    height: 2,
-    backgroundColor: ORANGE,
-
-},
-
-  menuSection: {
-    flex: 1,
-    backgroundColor: GREEN,
-    alignItems: "flex-end",
-    justifyContent: "center",
-    marginLeft: 15,
+    width: 115,
+    height: 52,
   },
 
   menuButton: {
-    width: 48,
-    height: 48,
-    alignItems: "center",
-    justifyContent: "center",
+    padding: 8,
   },
 
   menuIcon: {
-    width: 28,
-    height: 28,
+    width: 30,
+    height: 30,
   },
 
-  /* Dropdown Menu */
-  menu: {
+  menuDropdown: {
     backgroundColor: GREEN,
-    paddingHorizontal: 18,
-    paddingBottom: 10,
+    paddingHorizontal: 20,
+    paddingBottom: 12,
   },
 
   menuItem: {
-    minHeight: 48,
-    justifyContent: "center",
-    paddingHorizontal: 10,
+    paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "rgba(255,255,255,0.15)",
+    borderBottomColor: "rgba(255,255,255,0.2)",
   },
 
-  menuText: {
+  menuItemText: {
     color: WHITE,
     fontSize: 15,
     fontWeight: "500",
   },
 
-  /* Home Page */
   content: {
     flexGrow: 1,
-    padding: 0,
+    backgroundColor: WHITE,
   },
 
-  // hero: {
-  //   // flex: 1,
-  //   height: 320,
-  //   width: "100%",
-  //   overflow: "hidden",
-  // },
+  /* Hero */
+  hero: {
+    minHeight: 410,
+    justifyContent: "center",
+    overflow: "hidden",
+  },
 
-  eyebrow: {
-    color: ORANGE,
-    fontSize: 11,
-    fontWeight: "800",
-    letterSpacing: 1.2,
-    marginBottom: 12,
+  heroImage: {
+    resizeMode: "cover",
+  },
+
+  heroOverlay: {
+    flex: 1,
+    minHeight: 410,
+    backgroundColor: "rgba(0,0,0,0.48)",
+    paddingHorizontal: 22,
+    paddingVertical: 45,
+    justifyContent: "center",
+    alignItems: "flex-start",
   },
 
   heroTitle: {
     color: WHITE,
-    fontSize: 20,
+    fontSize: 29,
+    fontWeight: "800",
+    letterSpacing: 1,
+  },
 
-    fontWeight: "900",
-    marginBottom: 14,
-    alignSelf: "flex-end",
-    width: "55%",
-    paddingHorizontal: 16,
-    paddingTop: 60,
+  heroSubtitle: {
+    color: ORANGE,
+    fontSize: 27,
+    fontWeight: "800",
+    marginTop: 5,
+  },
+
+  orangeLine: {
+    width: 65,
+    height: 4,
+    backgroundColor: ORANGE,
+    marginTop: 15,
+    marginBottom: 16,
   },
 
   heroDescription: {
     color: WHITE,
-    fontSize: 12,
-    lineHeight: 24,
+    fontSize: 15,
+    lineHeight: 23,
     marginBottom: 24,
-    alignSelf: "flex-end",
+    maxWidth: 330,
   },
 
   primaryButton: {
     backgroundColor: ORANGE,
-    paddingVertical: 14,
-    paddingHorizontal: 18,
-    borderRadius: 8,
+    paddingVertical: 13,
+    paddingHorizontal: 22,
+    borderRadius: 5,
     alignItems: "center",
     marginBottom: 12,
+    minWidth: 180,
   },
 
   primaryButtonText: {
-    color: WHITE,
+    color: CHARCOAL,
     fontSize: 15,
     fontWeight: "700",
   },
 
   secondaryButton: {
-    borderWidth: 2,
+    backgroundColor: "transparent",
     borderColor: WHITE,
+    borderWidth: 1.5,
     paddingVertical: 12,
-    paddingHorizontal: 18,
-    borderRadius: 8,
+    paddingHorizontal: 22,
+    borderRadius: 5,
     alignItems: "center",
+    minWidth: 180,
   },
 
   secondaryButtonText: {
@@ -654,687 +417,386 @@ brandSection: {
     fontSize: 15,
     fontWeight: "700",
   },
-  diagonalEdge: {
-  position: "absolute",
-  left: 148,
-  top: 0,
-  width: 32,
-  height: 85,
-  backgroundColor: WHITE,
-  transform: [{ skewX: "-18deg" }],
-  zIndex: 2,
-},
-  heroImage: {
-    resizeMode: "cover",
-  },
 
-  heroSubtitle: {
-    color: ORANGE,
-    fontSize: 20,
-    fontWeight: "600",
-    alignSelf: "flex-end",
-    paddingHorizontal: 80,
-  },
-  /* Features Section */
+  /* Features */
   featuresSection: {
-    flexDirection: "row",
-    alignItems: "stretch",
-    justifyContent: "space-between",
-    paddingVertical: 25,
-    paddingHorizontal: 8,
     backgroundColor: WHITE,
+    paddingHorizontal: 16,
+    paddingVertical: 30,
   },
 
-  feature: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 4,
-  },
-
-  featureIcon: {
-    width: 32,
-    height: 31,
-    marginBottom: 10,
-  },
-
-  natureTitle: {
+  sectionHeading: {
     color: GREEN,
-    fontSize: 10,
+    fontSize: 23,
     fontWeight: "800",
     textAlign: "center",
-    marginBottom: 6,
-    height: 28,
-    textAlignVertical: "center",
-  
   },
 
-  natureDescription: {
+  sectionSubtitle: {
     color: CHARCOAL,
-    fontSize: 10,
+    fontSize: 14,
     textAlign: "center",
-  },
-  adventureTitle: {
-    color: BLUE,
-    fontSize: 10,
-    textAlign: "center",
-    height: 28,
-    fontWeight: "800",
-    textAlignVertical: "center",
-    marginBottom: 6,
-  },
-  adventureDescription: {
-    color: CHARCOAL,
-    fontSize: 10,
-    textAlign: "center",
-  },
-  groupsTitle: {
-    color: ORANGE,
-    fontSize: 10,
-    textAlign: "center",
-    height: 28,
-    fontWeight: "800",
-    textAlignVertical: "center",
-    marginBottom: 6,    
-  },
-  groupsDescription: {
-    color:CHARCOAL,
-    fontSize:10,
-    textAlign:'center',
-
-  },
-  reliableTitle: {
-    color:GREEN,
-    fontSize:10,
-    textAlign:'center',
-    height: 28,
-    fontWeight: "800",
-    textAlignVertical: "center",
-    marginBottom: 6,
-  },
-  reliableDescription: {
-    color:CHARCOAL,
-    fontSize:10,
-    textAlign:'center',
+    marginTop: 7,
+    marginBottom: 22,
   },
 
-
-  featureDivider: {
-    width: 1,
-    backgroundColor: CHARCOAL,
-    marginVertical: 3,
-  },
-
-activitiesHeading: {
-  color: "#14532D",
-  fontSize: 14,
-  fontWeight: "800",
-  textAlign: "center",
-  marginBottom: 10,
-},
-
-activitiesSubtitle: {
-  color: "#1F2933",
-  fontSize: 18,
-  fontWeight: "800",
-  textAlign: "center",
-  marginBottom: 12,
-},
-
-activitiesUnderline: {
-  width: 100,
-  height: 4,
-  backgroundColor: "#F4A261",
-  alignSelf: "center",
-  marginBottom: 30,
-},
-
-activitiesGrid: {
-  width: "100%",
-  flexDirection: "row",
-  flexWrap: "wrap",
-  justifyContent: "space-between",
-},
-
-activityCard: {
-  width: "31.5%",
-  backgroundColor: "#FFFFFF",
-  alignItems: "center",
-  marginBottom: 20,
-  borderRadius: 6,
-  elevation: 3,
-  shadowColor: "#000000",
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.12,
-  shadowRadius: 4,
-},
-activityImage: {
-  width: "100%",
-  height: 100,
-  borderTopLeftRadius: 6,
-  borderTopRightRadius: 6,
-},
-
-activityIcon: {
-  width: 42,
-  height: 42,
-  borderRadius: 21,
-  backgroundColor: "#FFFFFF",
-  alignItems: "center",
-  justifyContent: "center",
-  marginTop: -21,
-  zIndex: 1,
-},
-activityIconImage: {
-  width: 24,
-  height: 24,
-},
-
-activityTitle: {
-  color: "#14532D",
-  fontSize: 9,
-  fontWeight: "800",
-  textAlign: "center",
-  marginTop: 10,
-  marginBottom: 18,
-  paddingHorizontal: 2,
-},
-/* Why Choose Us Section */
-whyChooseUsSection: {
-  backgroundColor: WHITE,
-  paddingVertical: 30,
-  paddingHorizontal: 16,
-  alignItems: "center",
-},
-
-whyChooseUsHeading: {
-  color: GREEN,
-  fontSize: 14,
-  fontWeight: "800",
-  textAlign: "center",
-  marginBottom: 10,
-},
-
-whyChooseUsSubtitle: {
-  color: CHARCOAL,
-  fontSize: 17,
-  fontWeight: "800",
-  textAlign: "center",
-  marginBottom: 12,
-},
-
-whyChooseUsUnderline: {
-  width: 80,
-  height: 4,
-  backgroundColor: ORANGE,
-  marginBottom: 22,
-},
-
-whyChooseUsCards: {
-  width: "100%",
-  flexDirection: "row",
-  justifyContent: "space-between",
-  gap: 12,
-},
-
-whyChooseUsCard: {
-  flex: 1,
-  backgroundColor: WHITE,
-  alignItems: "center",
-  paddingVertical: 18,
-  paddingHorizontal: 10,
-  borderRadius: 8,
-  borderWidth: 1,
-  borderColor: "#DEF1F5",
-  elevation: 2,
-  shadowColor: "#000000",
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.1,
-  shadowRadius: 3,
-},
-
-whyChooseUsIcon: {
-  width: 42,
-  height: 42,
-  marginBottom: 12,
-},
-
-whyChooseUsCardTitle: {
-  color: GREEN,
-  fontSize: 11,
-  fontWeight: "800",
-  textAlign: "center",
-  marginBottom: 8,
-},
-
-whyChooseUsCardText: {
-  color: CHARCOAL,
-  fontSize: 11,
-  lineHeight: 16,
-  textAlign: "center",
-},
-  /* Footer */
-  footer: {
-    backgroundColor: GREEN,
+  featuresGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    alignItems: "flex-start",
-    paddingHorizontal: 16,
-    paddingTop: 30,
-    paddingBottom: 18,
   },
 
-  footerColumn: {
-    width: "22%",
-    marginBottom: 25,
-  },
-
- footerBrandRow: {
-  flexDirection: "row",
-  alignItems: "center",
-  marginBottom: 8,
-
-},
-
-footerLogo: {
-  width: 30,
-  height: 30,
-  backgroundColor: WHITE,
-  marginRight: 5,
-
-},
-footerBrandTextBlock: {
-  flex: 1,
-  alignItems: "flex-start",
-
-},
-
- footerBrandName: {
-  color: WHITE,
-  fontSize: 10,
-  fontWeight: "800",
-  lineHeight: 12,
-
-},
-
-  footerTagline: {
-    color: WHITE,
-    fontSize: 10,
-    lineHeight: 15,
-  },
-
-  footerHeading: {
-    color: WHITE,
-    fontSize: 10,
-    fontWeight: "800",
-    marginBottom: 14,
-  },
-
-  footerLinkButton: {
-    marginBottom: 9,
-  },
-
-  footerLink: {
-    color: WHITE,
-    fontSize: 10,
-    lineHeight: 15,
-  },
-
-
-footerBrandSubtitleRow: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: 3,
-  alignSelf: "flex-start",
-
-},
-
-  footerVerticalDivider: {
-    width: 1,
-    minHeight: 130,
-    backgroundColor: WHITE,
-    opacity: 0.7,
-    marginHorizontal: 3,
-  },
-
-  footerContactRow: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    marginBottom: 14,
-    gap: 6,
-  },
-
-  footerContactIcon: {
-    width: 15,
-    height: 15,
-    marginTop: 1,
-  },
-
-  footerText: {
-    color: WHITE,
-    fontSize: 9,
-    lineHeight: 14,
-    flexShrink: 1,
-  },
-
-  newsletterForm: {
-    marginTop: 12,
-    gap: 8,
-  },
-
-  newsletterInputBox: {
-    minHeight: 35,
-    backgroundColor: WHITE,
-    borderRadius: 4,
-    paddingHorizontal: 8,
-    justifyContent: "center",
-  },
-
-  newsletterPlaceholder: {
-    color: "#666666",
-    fontSize: 9,
-  },
-
-  newsletterButton: {
-    backgroundColor: ORANGE,
-    minHeight: 35,
-    borderRadius: 4,
+  featureCard: {
+    width: "48%",
+    backgroundColor: "#F7F9F8",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 16,
     alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 8,
-  },
-
-  newsletterButtonText: {
-    color: CHARCOAL,
-    fontSize: 10,
-    fontWeight: "800",
-  },
-
-  footerBottom: {
-    width: "100%",
-    marginTop: 2,
-  },
-
-  footerDivider: {
-    width: "100%",
-    height: 1,
-    backgroundColor: WHITE,
-    opacity: 0.7,
     marginBottom: 12,
   },
 
-  footerCopyright: {
-    color: WHITE,
-    fontSize: 9,
-    textAlign: "center",
-    lineHeight: 14,
+  featureIcon: {
+    width: 38,
+    height: 38,
+    marginBottom: 9,
   },
-  /* Why Choose Us Section */
-whyChooseUsSection: {
-  width: "100%",
-  backgroundColor: WHITE,
-  paddingHorizontal: 10,
-  paddingVertical: 14,
-  flexDirection: "row",
-  alignItems: "center",
-},
 
-whyChooseUsIntro: {
-  width: "25%",
-  paddingRight: 5,
-},
+  featureTitle: {
+    color: GREEN,
+    fontSize: 15,
+    fontWeight: "700",
+    textAlign: "center",
+  },
 
-whyChooseUsHeading: {
-  color: GREEN,
-  fontSize: 10,
-  fontWeight: "800",
-  textAlign: "left",
-  marginBottom: 8,
-},
+  featureDescription: {
+    color: CHARCOAL,
+    fontSize: 12,
+    lineHeight: 17,
+    textAlign: "center",
+    marginTop: 6,
+  },
 
-whyChooseUsIntroText: {
-  color: CHARCOAL,
-  fontSize: 8,
-  lineHeight: 11,
-},
+  /* Activities */
+  activitiesSection: {
+    backgroundColor: LIGHT_BLUE,
+    paddingHorizontal: 12,
+    paddingVertical: 30,
+  },
 
-whyChooseUsDivider: {
-  width: 3,
-  height: 88,
-  backgroundColor: ORANGE,
-  marginHorizontal: 5,
-  transform: [{ rotate: "-2deg" }],
-},
+  activitiesHeading: {
+    color: GREEN,
+    fontSize: 25,
+    fontWeight: "800",
+    textAlign: "center",
+  },
 
-whyChooseUsBenefits: {
-  flex: 1,
-  flexDirection: "row",
-  alignItems: "flex-start",
-  justifyContent: "space-between",
-},
+  activitiesSubtitle: {
+    color: CHARCOAL,
+    fontSize: 13,
+    fontWeight: "600",
+    textAlign: "center",
+    marginTop: 7,
+    letterSpacing: 1,
+  },
 
-whyChooseUsBenefit: {
-  width: "25%",
-  alignItems: "center",
-  paddingHorizontal: 2,
-},
+  activitiesUnderline: {
+    width: 65,
+    height: 4,
+    backgroundColor: ORANGE,
+    alignSelf: "center",
+    marginTop: 13,
+    marginBottom: 24,
+  },
 
-whyChooseUsIcon: {
-  width: 24,
-  height: 24,
-  marginBottom: 3,
-  tintColor: GREEN,
-},
+  activitiesGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
 
-whyChooseUsHeart: {
-  height: 24,
-  color: GREEN,
-  fontSize: 24,
-  lineHeight: 26,
-  marginBottom: 3,
-},
+  activityCard: {
+    width: "31.5%",
+    backgroundColor: WHITE,
+    borderRadius: 7,
+    alignItems: "center",
+    marginBottom: 28,
+    minHeight: 135,
+    overflow: "visible",
+  },
 
-whyChooseUsCardTitle: {
-  color: GREEN,
-  fontSize: 7,
-  fontWeight: "800",
-  textAlign: "center",
-  marginBottom: 2,
-},
+  activityImage: {
+    width: "100%",
+    height: 82,
+    borderTopLeftRadius: 7,
+    borderTopRightRadius: 7,
+  },
 
-whyChooseUsCardText: {
-  color: CHARCOAL,
-  fontSize: 7,
-  lineHeight: 9,
-  textAlign: "center",
-},
+  activityIconContainer: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: WHITE,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: -19,
+  },
+
+  activityIcon: {
+    width: 26,
+    height: 26,
+  },
+
+  activityTitle: {
+    color: CHARCOAL,
+    fontSize: 11,
+    fontWeight: "700",
+    textAlign: "center",
+    paddingHorizontal: 3,
+    paddingTop: 6,
+    paddingBottom: 10,
+  },
+
+  activitiesButton: {
+    backgroundColor: ORANGE,
+    alignSelf: "center",
+    paddingHorizontal: 25,
+    paddingVertical: 12,
+    borderRadius: 5,
+    marginTop: 2,
+  },
+
+  activitiesButtonText: {
+    color: CHARCOAL,
+    fontWeight: "700",
+    fontSize: 14,
+  },
+
+  /* Why Choose Us */
+  whyChooseUsSection: {
+    backgroundColor: WHITE,
+    paddingHorizontal: 18,
+    paddingVertical: 30,
+  },
+
+  whyChooseUsHeading: {
+    color: GREEN,
+    fontSize: 24,
+    fontWeight: "800",
+    textAlign: "center",
+  },
+
+  whyChooseUsUnderline: {
+    width: 60,
+    height: 4,
+    backgroundColor: ORANGE,
+    alignSelf: "center",
+    marginTop: 12,
+    marginBottom: 22,
+  },
+
+  whyChooseUsCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F7F9F8",
+    borderRadius: 8,
+    padding: 14,
+    marginBottom: 12,
+  },
+
+  reasonNumber: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: GREEN,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+  },
+
+  reasonNumberText: {
+    color: WHITE,
+    fontSize: 16,
+    fontWeight: "800",
+  },
+
+  reasonTextContainer: {
+    flex: 1,
+  },
+
+  whyChooseUsCardTitle: {
+    color: GREEN,
+    fontSize: 15,
+    fontWeight: "700",
+    marginBottom: 5,
+  },
+
+  whyChooseUsCardText: {
+    color: CHARCOAL,
+    fontSize: 12,
+    lineHeight: 18,
+  },
+
+  whyChooseUsButton: {
+    backgroundColor: GREEN,
+    paddingHorizontal: 28,
+    paddingVertical: 12,
+    borderRadius: 5,
+    alignSelf: "center",
+    marginTop: 12,
+  },
+
+  whyChooseUsButtonText: {
+    color: WHITE,
+    fontSize: 14,
+    fontWeight: "700",
+  },
 
   /* Footer */
   footer: {
-    width: "100%",
     backgroundColor: GREEN,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    paddingHorizontal: 8,
-    paddingTop: 12,
-    paddingBottom: 8,
-  },
-
-  footerBrandColumn: {
-    width: "24%",
-    paddingRight: 5,
-  },
-
-  footerBrandRow: {
-    flexDirection: "row",
+    paddingHorizontal: 18,
+    paddingVertical: 25,
     alignItems: "center",
-    marginBottom: 25,
   },
 
   footerLogo: {
-    width: 38,
-    height: 38,
-    backgroundColor: WHITE,
-    marginRight: 4,
+    width: 100,
+    height: 55,
+    marginBottom: 8,
   },
 
-  footerBrandTextBlock: {
-    flex: 1,
-    alignItems: "center",
-  },
-
-  footerBrandName: {
+  footerTitle: {
     color: WHITE,
-    fontSize: 12,
+    fontSize: 18,
     fontWeight: "800",
-    lineHeight: 15,
+    textAlign: "center",
   },
 
-  footerBrandSubtitleRow: {
+  footerDescription: {
+    color: WHITE,
+    fontSize: 13,
+    marginTop: 6,
+  },
+
+  footerLinks: {
     flexDirection: "row",
-    alignItems: "center",
+    flexWrap: "wrap",
     justifyContent: "center",
-    gap: 3,
-  },
-
-  footerBrandSubtitle: {
-    color: BLUE,
-    fontSize: 9,
-    fontWeight: "800",
-  },
-
-  footerOrangeLine: {
-    width: 12,
-    height: 3,
-    backgroundColor: ORANGE,
-  },
-
-  footerTagline: {
-    color: WHITE,
-    fontSize: 10,
-    lineHeight: 14,
-  },
-
-  footerVerticalDivider: {
-    width: 1,
-    height: 105,
-    backgroundColor: WHITE,
-    opacity: 0.65,
-    marginHorizontal: 4,
-  },
-
-  footerLinksColumn: {
-    width: "13%",
-  },
-
-  footerContactColumn: {
-    width: "27%",
-  },
-
-  footerNewsletterColumn: {
-    width: "29%",
-    alignItems: "center",
-  },
-
-  footerHeading: {
-    color: WHITE,
-    fontSize: 11,
-    fontWeight: "800",
-    marginBottom: 6,
-  },
-
-  footerLinkButton: {
-    marginBottom: 1,
+    marginTop: 18,
   },
 
   footerLink: {
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+  },
+
+  footerLinkText: {
     color: WHITE,
-    fontSize: 9,
-    lineHeight: 11,
-  },
-
-  footerContactRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 9,
-    gap: 5,
-  },
-
-  footerContactIcon: {
-    width: 14,
-    height: 14,
-    tintColor: WHITE,
-  },
-
-  footerText: {
-    color: WHITE,
-    fontSize: 8,
-    lineHeight: 11,
-    flexShrink: 1,
-  },
-
-  footerNewsletterText: {
-    color: WHITE,
-    fontSize: 9,
-    textAlign: "center",
-    marginBottom: 9,
-  },
-
-  footerNewsletterRow: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 5,
-  },
-
-  footerNewsletterInput: {
-    flex: 1,
-    minHeight: 36,
-    backgroundColor: WHITE,
-    justifyContent: "center",
-    paddingHorizontal: 6,
-  },
-
-  footerNewsletterPlaceholder: {
-    color: CHARCOAL,
-    fontSize: 10,
-  },
-
-  footerNewsletterButton: {
-    minHeight: 36,
-    backgroundColor: "#D97706",
-    borderRadius: 4,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 6,
-  },
-
-  footerNewsletterButtonText: {
-    color: WHITE,
-    fontSize: 9,
-    fontWeight: "800",
-  },
-
-  footerBottom: {
-    width: "100%",
-    marginTop: 8,
+    fontSize: 12,
+    fontWeight: "600",
   },
 
   footerDivider: {
-    width: "100%",
     height: 1,
-    backgroundColor: WHITE,
-    opacity: 0.7,
-    marginBottom: 6,
+    width: "100%",
+    backgroundColor: "rgba(255,255,255,0.3)",
+    marginTop: 15,
+    marginBottom: 14,
   },
 
   footerCopyright: {
     color: WHITE,
-    fontSize: 8,
+    fontSize: 10,
+    textAlign: "center",
+  },
+    brandContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  brandText: {
+    marginLeft: 6,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  brandAdventure: {
+    color: "#F4A261",
+    fontSize: 12,
+    fontWeight: "800",
+    letterSpacing: 1,
+    textAlign: "center",
+  },
+
+  brandEscapeRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 2,
+  },
+
+  brandLine: {
+    width: 9,
+    height: 2,
+    backgroundColor: "#F4A261",
+    marginHorizontal: 4,
+  },
+
+  brandEscape: {
+    color: "#0077B6",
+    fontSize: 10,
+    fontWeight: "800",
+    letterSpacing: 0.5,
+    textAlign: "center",
+  },
+    /* Nature Highlights */
+  natureHighlightsSection: {
+    flexDirection: "row",
+    backgroundColor: "#FFFFFF",
+    paddingVertical: 24,
+    paddingHorizontal: 8,
+    alignItems: "stretch",
+  },
+
+  natureHighlight: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "stretch",
+  },
+
+  natureDivider: {
+    width: 1,
+    backgroundColor: "#14532D",
+    opacity: 0.35,
+    marginHorizontal: 5,
+  },
+
+  natureHighlightContent: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingHorizontal: 3,
+  },
+
+  natureIcon: {
+    width: 36,
+    height: 36,
+    marginBottom: 8,
+  },
+
+  natureTitle: {
+    color: "#14532D",
+    fontSize: 13,
+    fontWeight: "800",
+    textAlign: "center",
+    marginBottom: 6,
+  },
+
+  natureDescription: {
+    color: "#1F2933",
+    fontSize: 10,
+    lineHeight: 14,
     textAlign: "center",
   },
 });
