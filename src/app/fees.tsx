@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect,useState } from "react";
 import {
   Alert,
   Image,
@@ -11,13 +11,20 @@ import {
   Button,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams,useRouter } from "expo-router";
 
 const GREEN = "#14532D";
 const ORANGE = "#F4A261";
 const WHITE = "#FFFFFF";
 const CHARCOAL = "#1F2933";
 const BLUE = "#0077B6";
+
+type SelectedItem = {
+  id: string;
+  title: string;
+  price: number;
+  quantity: number;
+};
 
 export default function Fees() {
   const router = useRouter();
@@ -32,22 +39,76 @@ export default function Fees() {
   { label: "Contact", route: "/contact" },
 ] as const;
 
-  const [ultimateQuantity, setUltimateQuantity] = useState(1);
-  const [kayakingQuantity, setKayakingQuantity] = useState(2);
+const { selections } = useLocalSearchParams<{
+  selections?: string | string[];
+}>();
+
+const selectionData = Array.isArray(selections)
+  ? selections[0]
+  : selections;
+
+const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([]);
+
+useEffect(() => {
+  if (!selectionData) {
+    setSelectedItems([]);
+    return;
+  }
+
+  try {
+    const parsed = JSON.parse(selectionData);
+
+    if (Array.isArray(parsed)) {
+      setSelectedItems(
+        parsed.map((item) => ({
+          id: String(item.id),
+          title: String(item.title),
+          price: Number(item.price),
+          quantity: Math.max(1, Number(item.quantity) || 1),
+        }))
+      );
+    } else {
+      setSelectedItems([]);
+    }
+  } catch {
+    setSelectedItems([]);
+  }
+}, [selectionData]);
+
+const hasSelections = selectedItems.length > 0;
+
+const selectedActivityCount = selectedItems.filter((item) =>
+  item.id.startsWith("activity-")
+).length;
+
+const discountRate = selectedActivityCount > 1 ? 0.1 : 0;
+
+const subtotal = selectedItems.reduce(
+  (sum, item) => sum + item.price * item.quantity,
+  0
+);
+
+const discount = subtotal * discountRate;
+const total = subtotal - discount;
+
+function changeQuantity(id: string, change: number) {
+  setSelectedItems((current) =>
+    current.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            quantity: Math.max(1, item.quantity + change),
+          }
+        : item
+    )
+  );
+}
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
 
-  const ultimatePrice = 1500;
-  const kayakingPrice = 750;
-
-  const ultimateTotal = ultimatePrice * ultimateQuantity;
-  const kayakingTotal = kayakingPrice * kayakingQuantity;
-
-  const subtotal = ultimateTotal + kayakingTotal;
-  const discount = subtotal * 0.1;
-  const total = subtotal - discount;
+  
 
   function formatPrice(amount: number) {
     return "R" + amount.toLocaleString("en-ZA", {
@@ -56,201 +117,138 @@ export default function Fees() {
     });
   }
 
-  function submitBooking() {
-    if (name.trim() === "" || phone.trim() === "" || email.trim() === "") {
-      Alert.alert("Missing Details", "Please complete all your details.");
-      return;
-    }
 
+function submitBooking() {
+  if (!hasSelections) {
     Alert.alert(
-      "Booking Request",
-      "Your booking request has been submitted successfully."
+      "No Selections",
+      "Please select a package or activity first."
     );
+    return;
   }
+
+  if (
+    name.trim() === "" ||
+    phone.trim() === "" ||
+    email.trim() === ""
+  ) {
+    Alert.alert(
+      "Missing Details",
+      "Please complete all your details."
+    );
+    return;
+  }
+
+  router.push({
+    pathname: "/booking",
+    params: {
+      selections: JSON.stringify(selectedItems),
+      subtotal: String(subtotal),
+      discount: String(discount),
+      total: String(total),
+      name: name.trim(),
+      phone: phone.trim(),
+      email: email.trim(),
+    },
+  });
+}
+
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         
           {/* Navigation Bar */}
-      <View style={styles.header}>
-        {/* White Logo Section */}
-        <View style={styles.brandSection}>
-          <Image
-            source={require("../../assets/images/logo.jpg")}
-            style={styles.logo}
-            resizeMode="contain"
-          />
+          <View style={styles.header}>
+            {/* White Logo Section */}
+            <View style={styles.brandSection}>
+              <Image
+                source={require("../../assets/images/logo.jpg")}
+                style={styles.logo}
+                resizeMode="contain"
+              />
+              <View style={styles.brandText}>
+                <Text style={styles.brandName}>ADVENTURE</Text>
 
-          <View style={styles.brandText}>
-            <Text style={styles.brandName}>ADVENTURE</Text>
-
-            <View style={styles.brandSubtitleRow}>
-              <View style={styles.orangeLine} />
-              <Text style={styles.brandSubtitle}>ESCAPE</Text>
-              <View style={styles.orangeLine} />
+                <View style={styles.brandSubtitleRow}>
+                  <View style={styles.orangeLine} />
+                    <Text style={styles.brandSubtitle}>ESCAPE</Text>
+                    <View style={styles.orangeLine} />
+                  </View>
+                </View>
+              </View>
+            {/*Diagonal White Edge*/}
+            <View style={styles.diagonalEdge} />
+            {/* Green Menu Section */}
+            <View style={styles.menuSection}>
+              <Pressable
+                style={styles.menuButton}
+                onPress={() => setMenuOpen(!menuOpen)}
+                accessibilityRole="button"
+                accessibilityLabel={menuOpen ? "Close navigation menu" : "Open navigation menu"}>
+                <Image
+                  source={require("../../assets/images/menu.png")}
+                  style={styles.menuIcon}
+                  resizeMode="contain"
+                />
+              </Pressable>
             </View>
           </View>
-        </View>
-        {/*Diagonal White Edge*/}
-        <View style={styles.diagonalEdge} />
-        {/* Green Menu Section */}
-        <View style={styles.menuSection}>
-          <Pressable
-            style={styles.menuButton}
-            onPress={() => setMenuOpen(!menuOpen)}
-            accessibilityRole="button"
-            accessibilityLabel={
-              menuOpen ? "Close navigation menu" : "Open navigation menu"
-            }
-          >
-            <Image
-              source={require("../../assets/images/menu.png")}
-              style={styles.menuIcon}
-              resizeMode="contain"
-            />
-          </Pressable>
-        </View>
-      </View>
 
-      {/* Navigation Dropdown */}
-{menuOpen && (
-  <View style={styles.menu}>
-    {menuItems.map((item) => (
-      <Pressable
-        key={item.label}
-        style={styles.menuItem}
-        onPress={() => {
-          setMenuOpen(false);
-          router.push(item.route);
-        }}
-      >
-        <Text style={styles.menuText}>{item.label}</Text>
-      </Pressable>
-    ))}
-  </View>
-)}
+          {/* Navigation Dropdown */}
+          {menuOpen && (
+            <View style={styles.menu}>
+              {menuItems.map((item) => (
+                <Pressable
+                  key={item.label}
+                  style={styles.menuItem}
+                  onPress={() => {
+                  setMenuOpen(false);
+                  router.push(item.route);
+                 }}>
+                  <Text style={styles.menuText}>{item.label}</Text>
+                </Pressable>
+              ))}
+           </View>
+         )}
 
-        {/* YOUR SELECTIONS */}
-        <View style={styles.content}>
-          <Text style={styles.pageTitle}>Your Selections</Text>
-
-          <View style={styles.card}>
-            
-            {/* TABLE HEADINGS */}
-            <View style={styles.tableHeader}>
-              <Text style={[styles.columnTitle, styles.experienceColumn]}>
-                Experience
-              </Text>
-              <Text style={[styles.columnTitle, styles.priceColumn]}>
-                Price
-              </Text>
-              <Text style={[styles.columnTitle, styles.quantityColumn]}>
-                Quantity
-              </Text>
-              <Text style={[styles.columnTitle, styles.totalColumn]}>
-                Total
-              </Text>
-            </View>
-
-            {/* ULTIMATE ADVENTURE DAY */}
-            <View style={styles.experienceRow}>
-              <Text style={[styles.experienceName, styles.experienceColumn]}>
-                Ultimate Adventure Day
-              </Text>
-
-              <Text style={[styles.cellText, styles.priceColumn]}>
-                {formatPrice(ultimatePrice)}
-              </Text>
-
-              <View style={[styles.quantityControls, styles.quantityColumn]}>
-                <Text
-                  style={styles.quantityButton}
-                  onPress={() =>
-                    setUltimateQuantity(
-                      Math.max(1, ultimateQuantity - 1)
-                    )
-                  }
-                >
-                  −
-                </Text>
-
-                <Text style={styles.quantityNumber}>
-                  {ultimateQuantity}
-                </Text>
-
-                <Text
-                  style={styles.quantityButton}
-                  onPress={() =>
-                    setUltimateQuantity(ultimateQuantity + 1)
-                  }
-                >
-                  +
-                </Text>
+          <View style={styles.content}>
+           <Text style={styles.pageTitle}>Your Selections</Text>
+            <View style={styles.card}>
+              <View style={styles.tableHeader}>
+                <Text style={[styles.columnTitle, styles.experienceColumn]}>Experience</Text>
+                <Text style={[styles.columnTitle, styles.priceColumn]}>Price</Text>
+                <Text style={[styles.columnTitle, styles.quantityColumn]}>Quantity</Text>
+                <Text style={[styles.columnTitle, styles.totalColumn]}>Total</Text>
               </View>
+              {!hasSelections ? (
+                <Text style={styles.noSelections}>No selections yet. Please select a package or activity first.</Text>
+                ) : (selectedItems.map((item) => (
+                <View style={styles.experienceRow} key={item.id}>
+                  <Text style={[styles.experienceName, styles.experienceColumn]}>{item.title}</Text>
+                  <Text style={[styles.cellText, styles.priceColumn]}>{formatPrice(item.price)}</Text>
+                  <View style={[styles.quantityControls, styles.quantityColumn]}>
+                    <Text style={styles.quantityButton} onPress={() => changeQuantity(item.id, -1)}>−</Text>
+                    <Text style={styles.quantityNumber}>{item.quantity}</Text>
+                    <Text style={styles.quantityButton} onPress={() => changeQuantity(item.id, 1)}>+</Text>
+                  </View>
+                  <Text style={[styles.cellText, styles.totalColumn]}>{formatPrice(item.price * item.quantity)}</Text>
+                </View>
+              ))
+             )}
 
-              <Text style={[styles.cellText, styles.totalColumn]}>
-                {formatPrice(ultimateTotal)}
-              </Text>
-            </View>
+          {/* DIVIDER */}
+          <View style={styles.divider} />
 
-            {/* KAYAKING */}
-            <View style={styles.experienceRow}>
-              <Text style={[styles.experienceName, styles.experienceColumn]}>
-                Kayaking
-              </Text>
-
-              <Text style={[styles.cellText, styles.priceColumn]}>
-                {formatPrice(kayakingPrice)}
-              </Text>
-
-              <View style={[styles.quantityControls, styles.quantityColumn]}>
-                <Text
-                  style={styles.quantityButton}
-                  onPress={() =>
-                    setKayakingQuantity(
-                      Math.max(1, kayakingQuantity - 1)
-                    )
-                  }
-                >
-                  −
-                </Text>
-
-                <Text style={styles.quantityNumber}>
-                  {kayakingQuantity}
-                </Text>
-
-                <Text
-                  style={styles.quantityButton}
-                  onPress={() =>
-                    setKayakingQuantity(kayakingQuantity + 1)
-                  }
-                >
-                  +
-                </Text>
-              </View>
-
-              <Text style={[styles.cellText, styles.totalColumn]}>
-                {formatPrice(kayakingTotal)}
-              </Text>
-            </View>
-
-            {/* DIVIDER */}
-            <View style={styles.divider} />
-
-            {/* ORDER SUMMARY */}
-            <Text style={styles.summaryTitle}>Order Summary</Text>
-
+          {/* ORDER SUMMARY */}
+          <Text style={styles.summaryTitle}>Order Summary</Text>
             <View style={styles.summaryRow}>
               <Text style={styles.summaryLabel}>Subtotal</Text>
-              <Text style={styles.summaryValue}>
-                {formatPrice(subtotal)}
-              </Text>
+              <Text style={styles.summaryValue}>{formatPrice(subtotal)}</Text>
             </View>
-
             <View style={styles.summaryRow}>
               <Text style={styles.summaryLabel}>Discount</Text>
-              <Text style={styles.summaryValue}>10%</Text>
+              <Text style={styles.summaryValue}>{discountRate > 0? "10%" : "0%"}</Text>
             </View>
 
             <View style={styles.summaryRow}>
@@ -278,7 +276,7 @@ export default function Fees() {
           <View style={styles.card}>
             <Text style={styles.inputLabel}>Your name:</Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, !hasSelections && styles.disabledInput]}
               placeholder="Enter your full name"
               placeholderTextColor="#777777"
               value={name}
@@ -287,7 +285,7 @@ export default function Fees() {
 
             <Text style={styles.inputLabel}>Phone number:</Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, !hasSelections && styles.disabledInput]}
               placeholder="Enter your phone number"
               placeholderTextColor="#777777"
               value={phone}
@@ -297,7 +295,7 @@ export default function Fees() {
 
             <Text style={styles.inputLabel}>Email address:</Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, !hasSelections && styles.disabledInput]}
               placeholder="Enter your email address"
               placeholderTextColor="#777777"
               value={email}
@@ -307,14 +305,13 @@ export default function Fees() {
             />
 
             <Text
-              style={styles.submitButton}
+              style={[styles.submitButton, !hasSelections && styles.disabledSubmitButton]}
               onPress={submitBooking}
             >
               Submit Booking Request
             </Text>
           </View>
         </View>
-
       </ScrollView>
     </SafeAreaView>
   );
@@ -607,5 +604,20 @@ const styles = StyleSheet.create({
     marginTop: 25,
     overflow: "hidden",
   },
+  noSelections: {
+  color: CHARCOAL,
+  fontSize: 13,
+  textAlign: "center",
+  paddingVertical: 25,
+},
+
+disabledInput: {
+  opacity: 0.45,
+  backgroundColor: "#EEEEEE",
+},
+
+disabledSubmitButton: {
+  opacity: 0.45,
+},
 
 });

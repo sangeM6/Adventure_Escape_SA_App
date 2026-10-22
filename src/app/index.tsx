@@ -1,3 +1,6 @@
+import { JosefinSans_400Regular_Italic } from "@expo-google-fonts/josefin-sans";
+import { useFonts } from "expo-font";
+import { Href, useRouter } from "expo-router";
 import { useState } from "react";
 import {
   Image,
@@ -9,7 +12,6 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Href, useRouter } from "expo-router";
 
 const GREEN = "#14532D";
 const ORANGE = "#F4A261";
@@ -113,12 +115,18 @@ const reasons = [
 export default function HomeScreen() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [fontsLoaded] = useFonts({
+    JosefinItalic: JosefinSans_400Regular_Italic,
+  });
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
       {/* Navigation */}
       <View style={styles.navbar}>
-               <Pressable
+        <Pressable
           onPress={() => router.push("/" as Href)}
           accessibilityRole="button"
         >
@@ -190,8 +198,8 @@ export default function HomeScreen() {
             <View style={styles.orangeLine} />
 
             <Text style={styles.heroDescription}>
-              Adventure Escape SA offers exciting outdoor adventures
-              throughout the Western Cape.
+              Adventure Escape SA offers exciting outdoor adventures throughout
+              the Western Cape.
             </Text>
 
             <Pressable
@@ -243,9 +251,7 @@ export default function HomeScreen() {
         <View style={styles.activitiesSection}>
           <Text style={styles.activitiesHeading}>OUR ACTIVITIES</Text>
 
-          <Text style={styles.activitiesSubtitle}>
-            CHOOSE YOUR ADVENTURE
-          </Text>
+          <Text style={styles.activitiesSubtitle}>CHOOSE YOUR ADVENTURE</Text>
 
           <View style={styles.activitiesUnderline} />
 
@@ -270,13 +276,7 @@ export default function HomeScreen() {
               </View>
             ))}
           </View>
-
-         
         </View>
-
-      
-
-      
       </ScrollView>
     </SafeAreaView>
   );
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
 
   /* Hero */
   hero: {
-    minHeight: 410,
+    minHeight: 300,
     justifyContent: "center",
     overflow: "hidden",
   },
@@ -347,10 +347,9 @@ const styles = StyleSheet.create({
 
   heroOverlay: {
     flex: 1,
-    minHeight: 410,
-    backgroundColor: "rgba(0,0,0,0.48)",
+    backgroundColor: "transparent",
     paddingHorizontal: 22,
-    paddingVertical: 45,
+    paddingVertical: 25,
     justifyContent: "center",
     alignItems: "flex-start",
   },
@@ -367,6 +366,8 @@ const styles = StyleSheet.create({
     fontSize: 27,
     fontWeight: "800",
     marginTop: 5,
+    fontFamily: "JosefinItalic",
+    fontStyle: "italic"
   },
 
   orangeLine: {
@@ -450,6 +451,8 @@ const styles = StyleSheet.create({
     width: "48%",
     backgroundColor: "#F7F9F8",
     borderRadius: 8,
+    borderColor: CHARCOAL,
+    borderWidth: 0.2,
     paddingHorizontal: 10,
     paddingVertical: 16,
     alignItems: "center",
@@ -536,7 +539,6 @@ const styles = StyleSheet.create({
     width: 38,
     height: 38,
     borderRadius: 19,
-    backgroundColor: WHITE,
     alignItems: "center",
     justifyContent: "center",
     marginTop: -19,
@@ -710,7 +712,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     textAlign: "center",
   },
-    brandContainer: {
+  brandContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
@@ -722,8 +724,8 @@ const styles = StyleSheet.create({
   },
 
   brandAdventure: {
-    color: "#F4A261",
-    fontSize: 12,
+    color: ORANGE,
+    fontSize: 14,
     fontWeight: "800",
     letterSpacing: 1,
     textAlign: "center",
@@ -745,12 +747,12 @@ const styles = StyleSheet.create({
 
   brandEscape: {
     color: "#0077B6",
-    fontSize: 10,
+    fontSize: 14,
     fontWeight: "800",
     letterSpacing: 0.5,
     textAlign: "center",
   },
-    /* Nature Highlights */
+  /* Nature Highlights */
   natureHighlightsSection: {
     flexDirection: "row",
     backgroundColor: "#FFFFFF",
