@@ -6,3 +6,7 @@ expo-env.d.ts
 # @end expo-clinode_modules/
 .expo/
 .DS_Store
+
+node_modules/
+.expo/
+.DS_Store
