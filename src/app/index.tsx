@@ -14,20 +14,23 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const GREEN = "#14532D";
-const ORANGE = "#F4A261";
+const ORANGE = "#D97706";
 const WHITE = "#FFFFFF";
 const CHARCOAL = "#1F2933";
 const BLUE = "#0077B6";
 const LIGHT_BLUE = "#DEF1F5";
 
-const menuItems = [
-  { title: "Home", route: "/" as Href },
-  { title: "About", route: "/about" as Href },
-  { title: "Overview", route: "/overview" as Href },
-  { title: "Packages", route: "/packages" as Href },
-  { title: "Fees", route: "/fees" as Href },
-  { title: "Contact", route: "/contact" as Href },
-];
+ const menuItems = [
+    { label: "Home", route: "/" },
+    { label: "Explore", route: "/explore" },
+    { label: "Fees", route: "/fees" },
+    { label: "Booking", route: "/booking" },
+    { label: "Overview", route: "/overview" },
+    { label: "Packages", route: "/packages" },
+    { label: "About Us", route: "/about" },
+    { label: "Contact", route: "/contact" },
+    { label: "Terms & Conditions", route: "/terms" },
+  ];
 
 const features = [
   {
@@ -124,62 +127,66 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      {/* Navigation */}
-      <View style={styles.navbar}>
-        <Pressable
-          onPress={() => router.push("/" as Href)}
-          accessibilityRole="button"
-        >
-          <View style={styles.brandContainer}>
-            <Image
-              source={require("../../assets/images/logo.jpg")}
-              style={styles.logo}
-              resizeMode="contain"
-            />
-
-            <View style={styles.brandText}>
-              <Text style={styles.brandAdventure}>ADVENTURE</Text>
-
-              <View style={styles.brandEscapeRow}>
-                <View style={styles.brandLine} />
-                <Text style={styles.brandEscape}>ESCAPE SA</Text>
-                <View style={styles.brandLine} />
-              </View>
-            </View>
-          </View>
-        </Pressable>
-
-        <Pressable
-          onPress={() => setMenuOpen(!menuOpen)}
-          style={styles.menuButton}
-          accessibilityRole="button"
-          accessibilityLabel="Toggle navigation menu"
-        >
-          <Image
-            source={require("../../assets/images/menu.png")}
-            style={styles.menuIcon}
-            resizeMode="contain"
-          />
-        </Pressable>
-      </View>
-
-      {menuOpen && (
-        <View style={styles.menuDropdown}>
-          {menuItems.map((item) => (
-            <Pressable
-              key={item.title}
-              style={styles.menuItem}
-              onPress={() => {
-                setMenuOpen(false);
-                router.push(item.route);
-              }}
-            >
-              <Text style={styles.menuItemText}>{item.title}</Text>
-            </Pressable>
-          ))}
-        </View>
-      )}
-
+      {/* Navigation Bar */}
+             <View style={styles.header}>
+               {/* White Logo Section */}
+               <View style={styles.brandSection}>
+                 <Image
+                   source={require("../../assets/images/logo.jpg")}
+                   style={styles.logo}
+                   resizeMode="contain"
+                 />
+     
+                 <View style={styles.brandText}>
+                   <Text style={styles.brandName}>ADVENTURE</Text>
+     
+                   <View style={styles.brandSubtitleRow}>
+                     <View style={styles.orangeLine} />
+                     <Text style={styles.brandSubtitle}>ESCAPE</Text>
+                     <View style={styles.orangeLine} />
+                   </View>
+                 </View>
+               </View>
+     
+               {/* Diagonal White Edge */}
+               <View style={styles.diagonalEdge} />
+     
+               {/* Green Menu Section */}
+               <View style={styles.menuSection}>
+                 <Pressable
+                   style={styles.menuButton}
+                   onPress={() => setMenuOpen(!menuOpen)}
+                   accessibilityRole="button"
+                   accessibilityLabel={
+                     menuOpen ? "Close navigation menu" : "Open navigation menu"
+                   }
+                 >
+                   <Image
+                     source={require("../../assets/images/menu.png")}
+                     style={styles.menuIcon}
+                     resizeMode="contain"
+                   />
+                 </Pressable>
+               </View>
+             </View>
+     
+             {/* Navigation Dropdown */}
+             {menuOpen && (
+               <View style={styles.menu}>
+                 {menuItems.map((item) => (
+                   <Pressable
+                     key={item.label}
+                     style={styles.menuItem}
+                     onPress={() => {
+                       setMenuOpen(false);
+                       router.push(item.route as any);
+                     }}
+                   >
+                     <Text style={styles.menuText}>{item.label}</Text>
+                   </Pressable>
+                 ))}
+               </View>
+             )}
       <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
@@ -195,7 +202,7 @@ export default function HomeScreen() {
 
             <Text style={styles.heroSubtitle}>EXPERIENCE</Text>
 
-            <View style={styles.orangeLine} />
+            <View style={styles.heroOrangeLine} />
 
             <Text style={styles.heroDescription}>
               Adventure Escape SA offers exciting outdoor adventures throughout
@@ -297,10 +304,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
   },
 
-  logo: {
-    width: 115,
-    height: 52,
-  },
 
   menuButton: {
     padding: 8,
@@ -363,20 +366,14 @@ const styles = StyleSheet.create({
 
   heroSubtitle: {
     color: ORANGE,
-    fontSize: 27,
-    fontWeight: "800",
+    fontSize: 28,
+    fontWeight: "900",
     marginTop: 5,
     fontFamily: "JosefinItalic",
     fontStyle: "italic"
   },
 
-  orangeLine: {
-    width: 65,
-    height: 4,
-    backgroundColor: ORANGE,
-    marginTop: 15,
-    marginBottom: 16,
-  },
+  
 
   heroDescription: {
     color: WHITE,
@@ -470,6 +467,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "700",
     textAlign: "center",
+  },
+  heroOrangeLine:{
+    width: 135,
+    height: 2,
+    backgroundColor: ORANGE,
+    marginTop: 5,
+    marginBottom: 16,
   },
 
   featureDescription: {
@@ -573,155 +577,110 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 14,
   },
+   /* Navigation Bar */
+ header: {
+  width: "100%",
+  height: 60,
+  flexDirection: "row",
+  alignItems: "stretch",
+  backgroundColor: GREEN,
+},
 
-  /* Why Choose Us */
-  whyChooseUsSection: {
-    backgroundColor: WHITE,
-    paddingHorizontal: 18,
-    paddingVertical: 30,
+  brandSection: {
+  width: 174,
+  flexShrink: 0,
+  backgroundColor: WHITE,
+  flexDirection: "row",
+  alignItems: "center",
+  paddingLeft: 12,
+  gap: 8,
+  zIndex: 1,
+},
+
+  logo: {
+    width: 52,
+    height: 52,
   },
 
-  whyChooseUsHeading: {
-    color: GREEN,
-    fontSize: 24,
-    fontWeight: "800",
-    textAlign: "center",
-  },
-
-  whyChooseUsUnderline: {
-    width: 60,
-    height: 4,
-    backgroundColor: ORANGE,
-    alignSelf: "center",
-    marginTop: 12,
-    marginBottom: 22,
-  },
-
-  whyChooseUsCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#F7F9F8",
-    borderRadius: 8,
-    padding: 14,
-    marginBottom: 12,
-  },
-
-  reasonNumber: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    backgroundColor: GREEN,
-    alignItems: "center",
+  brandText: {
     justifyContent: "center",
-    marginRight: 12,
   },
 
-  reasonNumberText: {
-    color: WHITE,
-    fontSize: 16,
-    fontWeight: "800",
-  },
-
-  reasonTextContainer: {
-    flex: 1,
-  },
-
-  whyChooseUsCardTitle: {
+  brandName: {
     color: GREEN,
     fontSize: 15,
-    fontWeight: "700",
-    marginBottom: 5,
+    fontWeight: "800",
+    letterSpacing: 1,
   },
 
-  whyChooseUsCardText: {
-    color: CHARCOAL,
-    fontSize: 12,
-    lineHeight: 18,
-  },
-
-  whyChooseUsButton: {
-    backgroundColor: GREEN,
-    paddingHorizontal: 28,
-    paddingVertical: 12,
-    borderRadius: 5,
-    alignSelf: "center",
-    marginTop: 12,
-  },
-
-  whyChooseUsButtonText: {
-    color: WHITE,
+  brandSubtitleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 5,
+    marginTop: 3,
     fontSize: 14,
-    fontWeight: "700",
+    
   },
 
-  /* Footer */
-  footer: {
+brandSubtitle: {
+  color: BLUE,
+  fontSize: 14,
+  fontWeight: "800",
+  letterSpacing: 2,
+},
+
+  orangeLine: {
+    width: 15,
+    height: 2,
+    backgroundColor: ORANGE,
+  },
+
+ diagonalEdge: {
+  width: 0,
+  height: 0,
+  borderTopWidth: 60,
+  borderTopColor: WHITE,
+  borderRightWidth: 15,
+  borderRightColor: "transparent",
+  position: "absolute",
+  left: 174,
+  top: 0,
+  zIndex: 2,
+},
+
+  menuSection: {
+    flex: 1,
+    backgroundColor: GREEN,
+    alignItems: "flex-end",
+    justifyContent: "center",
+    marginLeft: 15,
+  },
+
+
+
+  /* Dropdown Menu */
+  menu: {
     backgroundColor: GREEN,
     paddingHorizontal: 18,
-    paddingVertical: 25,
-    alignItems: "center",
+    paddingBottom: 10,
   },
 
-  footerLogo: {
-    width: 100,
-    height: 55,
-    marginBottom: 8,
-  },
+ 
 
-  footerTitle: {
+  menuText: {
     color: WHITE,
-    fontSize: 18,
-    fontWeight: "800",
-    textAlign: "center",
+    fontSize: 15,
+    fontWeight: "500",
   },
 
-  footerDescription: {
-    color: WHITE,
-    fontSize: 13,
-    marginTop: 6,
-  },
-
-  footerLinks: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    marginTop: 18,
-  },
-
-  footerLink: {
-    paddingHorizontal: 8,
-    paddingVertical: 8,
-  },
-
-  footerLinkText: {
-    color: WHITE,
-    fontSize: 12,
-    fontWeight: "600",
-  },
-
-  footerDivider: {
-    height: 1,
-    width: "100%",
-    backgroundColor: "rgba(255,255,255,0.3)",
-    marginTop: 15,
-    marginBottom: 14,
-  },
-
-  footerCopyright: {
-    color: WHITE,
-    fontSize: 10,
-    textAlign: "center",
-  },
+ 
   brandContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
 
-  brandText: {
-    marginLeft: 6,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+
 
   brandAdventure: {
     color: ORANGE,

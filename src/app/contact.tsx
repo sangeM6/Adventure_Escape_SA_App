@@ -14,19 +14,23 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter, type Href } from "expo-router";
 
 const GREEN = "#14532D";
-const ORANGE = "#F4A261";
+const ORANGE = "#D97706";
 const WHITE = "#FFFFFF";
 const CHARCOAL = "#1F2933";
 const BLUE = "#0077B6";
 
-const menuItems = [
-  { label: "Home", route: "/" },
-  { label: "About", route: "/about" },
-  { label: "Overview", route: "/overview" },
-  { label: "Packages", route: "/packages" },
-  { label: "Fees", route: "/fees" },
-  { label: "Contact", route: "/contact" },
-] as const;
+ const menuItems = [
+    { label: "Home", route: "/" },
+    { label: "Explore", route: "/explore" },
+    { label: "Fees", route: "/fees" },
+    { label: "Booking", route: "/booking" },
+    { label: "Overview", route: "/overview" },
+    { label: "Packages", route: "/packages" },
+    { label: "About Us", route: "/about" },
+    { label: "Contact", route: "/contact" },
+    { label: "Terms & Conditions", route: "/terms" },
+  ];
+
 
 const packages = [
   "Ultimate Adventure Day",
@@ -303,20 +307,22 @@ const styles = StyleSheet.create({
 
   /* Navigation Bar */
   header: {
-    height: 85,
+    height: 60,
     flexDirection: "row",
     alignItems: "stretch",
     backgroundColor: GREEN,
   },
 
-  brandSection: {
-    width: 150,
-    backgroundColor: WHITE,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingLeft: 6,
-    zIndex: 1,
-  },
+   brandSection: {
+  width: 174,
+  flexShrink: 0,
+  backgroundColor: WHITE,
+  flexDirection: "row",
+  alignItems: "center",
+  paddingLeft: 12,
+  gap: 8,
+  zIndex: 1,
+},
 
   logo: {
     width: 38,
@@ -344,8 +350,8 @@ const styles = StyleSheet.create({
 
   brandSubtitle: {
     color: BLUE,
-    fontSize: 9,
-    fontWeight: "700",
+    fontSize: 14,
+    fontWeight: "800",
     letterSpacing: 1,
   },
 
@@ -356,12 +362,17 @@ const styles = StyleSheet.create({
   },
 
   diagonalEdge: {
-    width: 15,
-    backgroundColor: WHITE,
-    transform: [{ skewX: "-12deg" }],
-    marginLeft: -5,
-    marginRight: -10,
-  },
+  width: 0,
+  height: 0,
+  borderTopWidth: 60,
+  borderTopColor: WHITE,
+  borderRightWidth: 15,
+  borderRightColor: "transparent",
+  position: "absolute",
+  left: 174,
+  top: 0,
+  zIndex: 2,
+},
 
   menuSection: {
     flex: 1,
@@ -407,7 +418,7 @@ const styles = StyleSheet.create({
   /* Hero Section */
   hero: {
     width: "100%",
-    minHeight: 220,
+    minHeight: 150,
     justifyContent: "center",
   },
 
@@ -416,24 +427,24 @@ const styles = StyleSheet.create({
   },
 
   heroOverlay: {
-    backgroundColor: "rgba(0,0,0,0.35)",
+    backgroundColor: "Transparent",
     paddingHorizontal: 20,
     paddingVertical: 25,
   },
 
   heroTitle: {
     color: WHITE,
-    fontSize: 26,
+    fontSize: 14,
     fontWeight: "800",
     textAlign: "center",
   },
 
   heroSubtitle: {
-    color: WHITE,
-    fontSize: 20,
-    fontWeight: "700",
+    fontSize: 26,
+    fontWeight: "800",
     textAlign: "center",
     marginTop: 6,
+    color: ORANGE,
   },
 
   heroDescription: {

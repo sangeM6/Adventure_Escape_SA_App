@@ -1,4 +1,5 @@
 
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -11,10 +12,9 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useLocalSearchParams, useRouter } from "expo-router";
 
 const GREEN = "#14532D";
-const ORANGE = "#F4A261";
+const ORANGE = "#D97706";
 const WHITE = "#FFFFFF";
 const CHARCOAL = "#1F2933";
 const BLUE = "#0077B6";
@@ -30,14 +30,17 @@ export default function Fees() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const menuItems = [
+ const menuItems = [
     { label: "Home", route: "/" },
-    { label: "About", route: "/about" },
+    { label: "Explore", route: "/explore" },
+    { label: "Fees", route: "/fees" },
+    { label: "Booking", route: "/booking" },
     { label: "Overview", route: "/overview" },
     { label: "Packages", route: "/packages" },
-    { label: "Fees", route: "/fees" },
+    { label: "About Us", route: "/about" },
     { label: "Contact", route: "/contact" },
-  ] as const;
+    { label: "Terms & Conditions", route: "/terms" },
+  ];
 
   const { selections } = useLocalSearchParams<{
     selections?: string | string[];
@@ -49,39 +52,49 @@ export default function Fees() {
 
   const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([]);
 
-  useEffect(() => {
-    if (!selectionData) {
-      setSelectedItems([]);
-      return;
-    }
+  
+useEffect(() => {
+  if (!selectionData) {
+    setSelectedItems([]);
+    return;
+  }
 
-    try {
-      const parsed = JSON.parse(selectionData);
+  try {
+    const parsed = JSON.parse(selectionData);
 
-      if (Array.isArray(parsed)) {
-        setSelectedItems(
-          parsed.map((item) => ({
-            id: String(item.id),
-            title: String(item.title),
-            price: Number(item.price),
-            quantity: Math.max(1, Number(item.quantity) || 1),
-          }))
+    if (Array.isArray(parsed)) {
+      const formattedItems: SelectedItem[] = parsed.map((item) => {
+        const price = Number(
+          String(item.price ?? "").replace(/[^0-9.-]/g, "")
         );
-      } else {
-        setSelectedItems([]);
-      }
-    } catch {
+
+        return {
+          id: String(item.id ?? ""),
+          title: String(item.title ?? item.name ?? "Adventure"),
+          price: Number.isFinite(price) ? price : 0,
+          quantity: Math.max(1, Number(item.quantity) || 1),
+        };
+      });
+
+      setSelectedItems(formattedItems);
+    } else {
       setSelectedItems([]);
     }
-  }, [selectionData]);
+  } catch {
+    setSelectedItems([]);
+  }
+}, [selectionData]);
+
 
   const hasSelections = selectedItems.length > 0;
 
-  const selectedActivityCount = selectedItems.filter((item) =>
-    item.id.startsWith("activity-")
-  ).length;
+  const totalAdventureQuantity = selectedItems.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
 
-  const discountRate = selectedActivityCount > 1 ? 0.1 : 0;
+  const discountRate = totalAdventureQuantity >= 2 ? 0.1 : 0;
+
 
   const subtotal = selectedItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -91,18 +104,21 @@ export default function Fees() {
   const discount = subtotal * discountRate;
   const total = subtotal - discount;
 
-  function changeQuantity(id: string, change: number) {
-    setSelectedItems((current) =>
-      current.map((item) =>
+function changeQuantity(id: string, change: number) {
+  setSelectedItems((current) =>
+    current
+      .map((item) =>
         item.id === id
           ? {
               ...item,
-              quantity: Math.max(1, item.quantity + change),
+              quantity: item.quantity + change,
             }
           : item
       )
-    );
-  }
+      .filter((item) => item.quantity > 0)
+  );
+}
+
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -208,7 +224,7 @@ export default function Fees() {
                 style={styles.menuItem}
                 onPress={() => {
                   setMenuOpen(false);
-                  router.push(item.route);
+                  router.push(item.route as any);
                 }}
               >
                 <Text style={styles.menuText}>{item.label}</Text>
@@ -219,7 +235,6 @@ export default function Fees() {
 
         <View style={styles.content}>
           <Text style={styles.pageTitle}>Your Selections</Text>
-
           <View style={styles.card}>
             <View style={styles.tableHeader}>
               <Text style={[styles.columnTitle, styles.experienceColumn]}>
@@ -285,8 +300,7 @@ export default function Fees() {
             )}
 
             {/* Divider */}
-            <View style={styles.divider} />
-
+            <View style={styles.divider} /> 
             {/* Order Summary */}
             <Text style={styles.summaryTitle}>Order Summary</Text>
 
@@ -296,7 +310,6 @@ export default function Fees() {
                 {formatPrice(subtotal)}
               </Text>
             </View>
-
             <View style={styles.summaryRow}>
               <Text style={styles.summaryLabel}>Discount</Text>
               <Text style={styles.summaryValue}>
@@ -321,60 +334,62 @@ export default function Fees() {
                 {formatPrice(total)}
               </Text>
             </View>
-          </View>
 
-          {/* Your Details */}
-          <Text style={styles.pageTitle}>Your Details</Text>
 
-          <View style={styles.card}>
-            <Text style={styles.inputLabel}>Your name:</Text>
 
-            <TextInput
-              style={[styles.input, !hasSelections && styles.disabledInput]}
-              placeholder="Enter your full name"
-              placeholderTextColor="#777777"
-              value={name}
-              onChangeText={setName}
-              editable={hasSelections}
-            />
+            {/* Your Details */}
+            <Text style={styles.pageTitle}>Your Details</Text>
 
-            <Text style={styles.inputLabel}>Phone number:</Text>
+            <View style={styles.card}>
+              <Text style={styles.inputLabel}>Your name:</Text>
 
-            <TextInput
-              style={[styles.input, !hasSelections && styles.disabledInput]}
-              placeholder="Enter your phone number"
-              placeholderTextColor="#777777"
-              value={phone}
-              onChangeText={setPhone}
-              keyboardType="phone-pad"
-              editable={hasSelections}
-            />
+              <TextInput
+                style={[styles.input, !hasSelections && styles.disabledInput]}
+                placeholder="Enter your full name"
+                placeholderTextColor="#777777"
+                value={name}
+                onChangeText={setName}
+                editable={hasSelections}
+              />
 
-            <Text style={styles.inputLabel}>Email address:</Text>
+              <Text style={styles.inputLabel}>Phone number:</Text>
 
-            <TextInput
-              style={[styles.input, !hasSelections && styles.disabledInput]}
-              placeholder="Enter your email address"
-              placeholderTextColor="#777777"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              editable={hasSelections}
-            />
+              <TextInput
+                style={[styles.input, !hasSelections && styles.disabledInput]}
+                placeholder="Enter your phone number"
+                placeholderTextColor="#777777"
+                value={phone}
+                onChangeText={setPhone}
+                keyboardType="phone-pad"
+                editable={hasSelections}
+              />
 
-            <Pressable
-              style={[
-                styles.submitButton,
-                !hasSelections && styles.disabledSubmitButton,
-              ]}
-              onPress={submitBooking}
-              accessibilityRole="button"
-            >
-              <Text style={styles.submitButtonText}>
-                Submit Booking Request
-              </Text>
-            </Pressable>
+              <Text style={styles.inputLabel}>Email address:</Text>
+
+              <TextInput
+                style={[styles.input, !hasSelections && styles.disabledInput]}
+                placeholder="Enter your email address"
+                placeholderTextColor="#777777"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                editable={hasSelections}
+              />
+
+              <Pressable
+                style={[
+                  styles.submitButton,
+                  !hasSelections && styles.disabledSubmitButton,
+                ]}
+                onPress={submitBooking}
+                accessibilityRole="button"
+              >
+                <Text style={styles.submitButtonText}>
+                  Submit Booking Request
+                </Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -390,7 +405,7 @@ const styles = StyleSheet.create({
 
   /* Navigation Bar */
   header: {
-    height: 85,
+    height: 60,
     flexDirection: "row",
     alignItems: "stretch",
     backgroundColor: GREEN,
@@ -446,7 +461,7 @@ const styles = StyleSheet.create({
   diagonalEdge: {
     width: 0,
     height: 0,
-    borderTopWidth: 85,
+    borderTopWidth: 60,
     borderTopColor: WHITE,
     borderRightWidth: 15,
     borderRightColor: "transparent",
