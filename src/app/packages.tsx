@@ -106,7 +106,7 @@ export default function PackagesScreen() {
 
     setIsFeesPressed(true);
     router.push({
-      pathname: "/fees",
+      pathname: "./fees",
       params: {
         selections: JSON.stringify(selectedAdventures),
       },
