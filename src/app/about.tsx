@@ -56,7 +56,7 @@ export default function AboutUsScreen() {
           </View>
           <Text style={styles.storyText}>
             Adventure Escape SA connects people to nature through safe,
-            unforgettable outdoor experiences in South Africa's most beautiful
+            unforgettable outdoor experiences in South Africa&apos;s most beautiful
             landscapes.
           </Text>
 
@@ -64,7 +64,7 @@ export default function AboutUsScreen() {
             <View style={styles.missionBox}>
               <Text style={styles.missionTitle}>OUR MISSION</Text>
               <Text style={styles.missionQuote}>
-                "Inspire, guide, create lasting memories"
+                &quot;Inspire, guide, create lasting memories&quot;
               </Text>
               <Text style={styles.missionPoint}>• Safe guided adventures</Text>
               <Text style={styles.missionPoint}>
@@ -75,7 +75,7 @@ export default function AboutUsScreen() {
             <View style={styles.visionBox}>
               <Text style={styles.visionTitle}>OUR VISION</Text>
               <Text style={styles.visionText}>
-                South Africa's most loved adventure brand
+                South Africa&apos;s most loved adventure brand
               </Text>
               <Text style={styles.visionTagline}>
                 memories that last forever
@@ -147,7 +147,7 @@ export default function AboutUsScreen() {
         </View>
         <TouchableOpacity
           style={styles.navItem}
-          onPress={() => router.push("/packages")}
+          onPress={() => router.push("/explore")}
           activeOpacity={0.7}
         >
           <Image
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   visionText: { fontSize: 12, color: "#333", marginBottom: 6 },
-  visionTagline: { fontSize: 11, color: "#0077b6", fontStyle: "italic" },
+  visionTagline: { fontSize: 11, color: "0077b6", fontStyle: "italic" },
   valuesGrid: {
     flexDirection: "row",
     flexWrap: "wrap",

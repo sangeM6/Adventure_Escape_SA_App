@@ -157,7 +157,11 @@ export default function OverviewScreen() {
           </TouchableOpacity>
           <View style={styles.orangeLineUnderHome} />
         </View>
-        <TouchableOpacity style={styles.navItem} activeOpacity={0.7}>
+        <TouchableOpacity
+          style={styles.navItem}
+          activeOpacity={0.7}
+          onPress={() => router.push("/explore")}
+        >
           <Image
             source={require("../../assets/photos/explore-icon.jpeg")}
             style={styles.navIcon}

@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { useState } from "react";
 import {
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -57,10 +58,60 @@ const activities = [
   },
 ];
 
+type SelectionType = "package" | "activity";
+
+type SelectedAdventure = {
+  id: string;
+  name: string;
+  price: string;
+};
+
 export default function PackagesScreen() {
-  const [selectedPackageId, setSelectedPackageId] = useState<number | null>(null);
-  const [selectedActivityId, setSelectedActivityId] = useState<number | null>(null);
+  const [selectedAdventures, setSelectedAdventures] = useState<
+    SelectedAdventure[]
+  >([]);
   const [isFeesPressed, setIsFeesPressed] = useState(false);
+
+  function toggleAdventureSelection(
+    type: SelectionType,
+    id: number,
+    name: string,
+    price: string,
+  ) {
+    const selectionId = `${type}-${id}`;
+
+    if (selectedAdventures.some((adventure) => adventure.id === selectionId)) {
+      setSelectedAdventures((current) =>
+        current.filter((adventure) => adventure.id !== selectionId),
+      );
+      return;
+    }
+
+    if (selectedAdventures.length >= 2) {
+      Alert.alert("Selection limit", "Maximum 2 adventures allowed");
+      return;
+    }
+
+    setSelectedAdventures((current) => [
+      ...current,
+      { id: selectionId, name, price },
+    ]);
+  }
+
+  function continueToFees() {
+    if (selectedAdventures.length === 0) {
+      Alert.alert("Selection required", "Please select at least one adventure");
+      return;
+    }
+
+    setIsFeesPressed(true);
+    router.push({
+      pathname: "/fees",
+      params: {
+        selections: JSON.stringify(selectedAdventures),
+      },
+    });
+  }
 
   return (
     <View style={styles.safeArea}>
@@ -104,7 +155,9 @@ export default function PackagesScreen() {
         <View style={styles.content}>
           <View style={styles.packagesGrid}>
             {packages.map((pkg) => {
-              const isSelected = selectedPackageId === pkg.id;
+              const isSelected = selectedAdventures.some(
+                (adventure) => adventure.id === `package-${pkg.id}`,
+              );
 
               return (
                 <View key={pkg.id} style={styles.card}>
@@ -116,11 +169,26 @@ export default function PackagesScreen() {
                   <Text style={styles.cardTitle}>{pkg.title}</Text>
                   <Text style={styles.cardPrice}>{pkg.price}</Text>
                   <TouchableOpacity
-                    style={[styles.selectBtn, isSelected && styles.selectBtnSelected]}
+                    style={[
+                      styles.selectBtn,
+                      isSelected && styles.selectBtnSelected,
+                    ]}
                     activeOpacity={0.8}
-                    onPress={() => setSelectedPackageId(pkg.id)}
+                    onPress={() =>
+                      toggleAdventureSelection(
+                        "package",
+                        pkg.id,
+                        pkg.title,
+                        pkg.price,
+                      )
+                    }
                   >
-                    <Text style={[styles.selectText, isSelected && styles.selectTextSelected]}>
+                    <Text
+                      style={[
+                        styles.selectText,
+                        isSelected && styles.selectTextSelected,
+                      ]}
+                    >
                       {isSelected ? "SELECTED" : "SELECT >"}
                     </Text>
                   </TouchableOpacity>
@@ -137,7 +205,9 @@ export default function PackagesScreen() {
 
           <View style={styles.activitiesGrid}>
             {activities.map((act) => {
-              const isSelected = selectedActivityId === act.id;
+              const isSelected = selectedAdventures.some(
+                (adventure) => adventure.id === `activity-${act.id}`,
+              );
 
               return (
                 <View key={act.id} style={styles.card}>
@@ -149,11 +219,26 @@ export default function PackagesScreen() {
                   <Text style={styles.cardTitle}>{act.title}</Text>
                   <Text style={styles.cardPrice}>{act.price}</Text>
                   <TouchableOpacity
-                    style={[styles.selectBtn, isSelected && styles.selectBtnSelected]}
+                    style={[
+                      styles.selectBtn,
+                      isSelected && styles.selectBtnSelected,
+                    ]}
                     activeOpacity={0.8}
-                    onPress={() => setSelectedActivityId(act.id)}
+                    onPress={() =>
+                      toggleAdventureSelection(
+                        "activity",
+                        act.id,
+                        act.title,
+                        act.price,
+                      )
+                    }
                   >
-                    <Text style={[styles.selectText, isSelected && styles.selectTextSelected]}>
+                    <Text
+                      style={[
+                        styles.selectText,
+                        isSelected && styles.selectTextSelected,
+                      ]}
+                    >
                       {isSelected ? "SELECTED" : "SELECT >"}
                     </Text>
                   </TouchableOpacity>
@@ -176,9 +261,14 @@ export default function PackagesScreen() {
               <TouchableOpacity
                 style={[styles.feesBtn, isFeesPressed && styles.feesBtnPressed]}
                 activeOpacity={0.8}
-                onPress={() => setIsFeesPressed(true)}
+                onPress={continueToFees}
               >
-                <Text style={[styles.feesText, isFeesPressed && styles.feesTextPressed]}>
+                <Text
+                  style={[
+                    styles.feesText,
+                    isFeesPressed && styles.feesTextPressed,
+                  ]}
+                >
                   {isFeesPressed ? "PROCEEDING TO FEES" : "CONTINUE TO FEES >"}
                 </Text>
               </TouchableOpacity>
@@ -202,7 +292,7 @@ export default function PackagesScreen() {
         <TouchableOpacity
           style={styles.navItem}
           activeOpacity={0.7}
-          onPress={() => router.push("/")}
+          onPress={() => router.push("/explore")}
         >
           <Image
             source={require("../../assets/photos/explore-icon.jpeg")}
