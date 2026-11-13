@@ -9,6 +9,7 @@ import {
   Text,
   TextInput,
   View,
+  Image
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BrandHeader, NAV_MENU_ITEMS } from "../components/brand-header";
@@ -160,10 +161,48 @@ function changeQuantity(id: string, change: number) {
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Navigation Bar */}
-        <BrandHeader
-          menuOpen={menuOpen}
-          onMenuPress={() => setMenuOpen(!menuOpen)}
-        />
+         <View style={styles.header}>
+        
+                {/* White Logo Section */}
+                <View style={styles.brandSection}>
+                  <Image
+                    source={require("../../assets/images/logo.jpg")}
+                    style={styles.logo}
+                    resizeMode="contain"
+                  />
+        
+                  <View style={styles.brandText}>
+                    <Text style={styles.brandName}>ADVENTURE</Text>
+        
+                    <View style={styles.brandSubtitleRow}>
+                      <View style={styles.orangeLine} />
+                      <Text style={styles.brandSubtitle}>ESCAPE</Text>
+                      <View style={styles.orangeLine} />
+                    </View>
+                  </View>
+                </View>
+        
+                {/* Diagonal White Edge */}
+                <View style={styles.diagonalEdge} />
+        
+                {/* Green Menu Section */}
+                <View style={styles.menuSection}>
+                  <Pressable
+                    style={styles.menuButton}
+                    onPress={() => setMenuOpen(!menuOpen)}
+                    accessibilityRole="button"
+                    accessibilityLabel={
+                      menuOpen ? "Close navigation menu" : "Open navigation menu"
+                    }
+                  >
+                    <Image
+                      source={require("../../assets/images/menu.png")}
+                      style={styles.menuIcon}
+                      resizeMode="contain"
+                    />
+                  </Pressable>
+                </View>
+              </View>
 
         {/* Navigation Dropdown */}
         {menuOpen && (
@@ -352,6 +391,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: WHITE,
   },
+   navbar: {
+    height: 70,
+    backgroundColor: GREEN,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 18,
+  },
 
   /* Navigation Bar */
   header: {
@@ -430,8 +477,8 @@ const styles = StyleSheet.create({
   },
 
   menuButton: {
-    width: 48,
-    height: 48,
+    width: 42,
+    height: 42,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -440,20 +487,26 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
   },
-
-  /* Dropdown Menu */
-  menu: {
-    backgroundColor: GREEN,
-    paddingHorizontal: 18,
-    paddingBottom: 10,
+    menuItem: {
+    paddingVertical: 11,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(255,255,255,0.18)",
   },
 
-  menuItem: {
-    minHeight: 48,
-    justifyContent: "center",
-    paddingHorizontal: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "rgba(255,255,255,0.15)",
+
+  /* Dropdown Menu */
+ 
+
+   menu: {
+    position: "absolute",
+    top: 60,
+    right: 0,
+    width: 210,
+    backgroundColor: GREEN,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    zIndex: 5,
+    elevation: 5,
   },
 
   menuText: {
