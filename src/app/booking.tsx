@@ -212,7 +212,10 @@ function submitBooking() {
                            style={styles.menuItem}
                            onPress={() => {
                              setMenuOpen(false);
-                             router.push(item.route as any);
+                             router.push({pathname:item.route as any, params: {
+                              selections:JSON.stringify(selectedItems),
+                              total:String(total)
+                             }});
                            }}
                          >
                            <Text style={styles.menuText}>{item.label}</Text>
@@ -478,7 +481,7 @@ const styles = StyleSheet.create({
   },
   mainHeading: {
     color: GREEN,
-    fontSize: 23,
+    fontSize: 18,
     fontWeight: "800",
     textAlign: "center",
     marginBottom: 20,
@@ -536,24 +539,24 @@ const styles = StyleSheet.create({
   totalHeading: {
     color: GREEN,
     fontSize: 17,
-    fontWeight: "800",
+    fontWeight: "600",
   },
   totalAmount: {
     color: GREEN,
     fontSize: 18,
-    fontWeight: "800",
+    fontWeight: "600",
   },
   sectionHeading: {
     color: GREEN,
-    fontSize: 21,
+    fontSize: 18,
     fontWeight: "800",
     marginTop: 30,
     marginBottom: 12,
   },
   label: {
-    color: GREEN,
+    color: CHARCOAL,
     fontSize: 15,
-    fontWeight: "700",
+    fontWeight: "500",
     marginTop: 16,
     marginBottom: 9,
   },
@@ -688,14 +691,15 @@ const styles = StyleSheet.create({
     marginBottom: 23,
   },
   termsLinkText: {
-    color: GREEN,
+    color: CHARCOAL,
     fontSize: 14,
     fontWeight: "700",
   },
   termsArrow: {
-    color: GREEN,
+    color: CHARCOAL,
     fontSize: 23,
     marginLeft: 9,
+    paddingBottom:10,
   },
   submitButton: {
     backgroundColor: ORANGE,

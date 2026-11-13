@@ -55,27 +55,27 @@ export default function HomeScreen() {
   const router = useRouter();
 
   const onSubmit = () => {
-    if (!name.trim() || !email.trim() || !phone.trim() || !message.trim()) {
-      Alert.alert("Missing Information", "Please complete all the fields.");
-      return;
-    }
+  if (!name.trim() || !email.trim() || !phone.trim() || !message.trim()) {
+    Alert.alert("Missing Information", "Please complete all the fields.");
+    return;
+  }
 
-    if (selectedPackage === "Select a Package") {
-      Alert.alert("Select a Package", "Please select an adventure package.");
-      return;
-    }
+  if (selectedPackage === "Select a Package") {
+    Alert.alert("Select a Package", "Please select an adventure package.");
+    return;
+  }
 
-    Alert.alert(
-      "Message Submitted",
-      "Thank you for contacting Adventure Escape SA!"
-    );
-
-    setName("");
-    setEmail("");
-    setPhone("");
-    setSelectedPackage("Select a Package");
-    setMessage("");
-  };
+  router.push({
+    pathname: "/confirmation",
+    params: {
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      package: selectedPackage,
+      message: message.trim(),
+    },
+  });
+};
 
   return (
     <SafeAreaView style={styles.container}>

@@ -160,9 +160,15 @@ export default function TermsConditions() {
             styles.contactButton,
             { opacity: pressed ? 0.8 : 1 },
           ]}
-          onPress={() => router.push("/contact")}
+          onPress={() => router.push("/booking")}
         >
-          <Text style={styles.contactButtonText}>Contact Us</Text>
+          <Text style={styles.contactButtonText}>Back to Booking</Text>
+        </Pressable>
+        <Pressable style={({pressed}) => [
+          styles.contactButton, {opacity:pressed ? 0.8:1},
+        ]}
+        onPress={() => router.push("/privacy")}>
+          <Text style={styles.contactButtonText}>Privacy</Text>
         </Pressable>
       </ScrollView>
     </SafeAreaView>
