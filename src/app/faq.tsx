@@ -15,6 +15,7 @@ const ORANGE = "#D97706";
 const WHITE = "#FFFFFF";
 const CHARCOAL = "#1F2933";
 const LIGHT_BLUE = "#DEF1F5";
+const BLUE = "#0077B6";
 
 const menuItems = [
   { label: "Home", route: "/" },
@@ -188,8 +189,7 @@ export default function FAQScreen() {
           </Text>
 
           <Text style={styles.contactText}>
-            We are happy to help. Get in touch with our team for more
-            information.
+            Contact our team for more information.
           </Text>
 
           <Pressable
@@ -332,17 +332,19 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: GREEN,
-    fontSize: 28,
+    color: BLUE,
+    fontSize: 24,
     fontWeight: "800",
     lineHeight: 35,
     marginBottom: 10,
+    textAlign:"center",
   },
 
   subtitle: {
     color: CHARCOAL,
-    fontSize: 15,
+    fontSize: 11,
     lineHeight: 23,
+    textAlign:"center",
   },
 
   faqList: {
@@ -371,19 +373,19 @@ const styles = StyleSheet.create({
     flex: 1,
     color: CHARCOAL,
     fontSize: 15,
-    fontWeight: "700",
+    fontWeight: "500",
     lineHeight: 21,
   },
 
   toggleIcon: {
     color: ORANGE,
-    fontSize: 27,
+    fontSize: 22,
     fontWeight: "500",
     lineHeight: 30,
   },
 
   answerContainer: {
-    backgroundColor: LIGHT_BLUE,
+    backgroundColor: WHITE,
     borderTopWidth: 1,
     borderTopColor: ORANGE,
     paddingHorizontal: 15,
@@ -400,22 +402,27 @@ const styles = StyleSheet.create({
     marginTop: 28,
     padding: 20,
     borderRadius: 10,
-    backgroundColor: GREEN,
-    alignItems: "flex-start",
+    backgroundColor: WHITE,
+    borderColor:"#D8E2DC",
+    borderWidth:1,
+    
   },
 
   contactTitle: {
-    color: WHITE,
+    color: BLUE,
     fontSize: 20,
     fontWeight: "800",
     marginBottom: 8,
+    textAlign:"center",
   },
 
   contactText: {
-    color: WHITE,
-    fontSize: 14,
+    color: CHARCOAL,
+    fontSize: 12,
     lineHeight: 21,
     marginBottom: 16,
+    textAlign:"center",
+    paddingBottom:8,
   },
 
   contactButton: {
@@ -426,9 +433,10 @@ const styles = StyleSheet.create({
   },
 
   contactButtonText: {
-    color: WHITE,
+    color: CHARCOAL,
     fontSize: 13,
     fontWeight: "800",
     letterSpacing: 0.5,
+    textAlign:"center",
   },
 });

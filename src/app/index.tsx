@@ -115,30 +115,8 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
 
       {/* Navigation Bar */}
-<<<<<<< HEAD
-      <BrandHeader
-        menuOpen={menuOpen}
-        onMenuPress={() => setMenuOpen(!menuOpen)}
-      />
-     
-             {/* Navigation Dropdown */}
-             {menuOpen && (
-               <View style={styles.menu}>
-                 {NAV_MENU_ITEMS.map((item) => (
-                   <Pressable
-                     key={item.label}
-                     style={styles.menuItem}
-                     onPress={() => {
-                       setMenuOpen(false);
-                       router.navigate(item.route);
-                     }}
-                   >
-                     <Text style={styles.menuText}>{item.label}</Text>
-                   </Pressable>
-                 ))}
-               </View>
-             )}
-=======
+
+
       <View style={styles.header}>
 
         {/* White Logo Section */}
@@ -200,7 +178,6 @@ export default function HomeScreen() {
         </View>
       )}
 
->>>>>>> ef1bde6 (Zusange Mbaleki)
       <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
