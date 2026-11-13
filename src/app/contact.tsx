@@ -335,7 +335,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginLeft: 15,
   },
-
+   navbar: {
+    height: 70,
+    backgroundColor: GREEN,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 18,
+  },
   menuButton: {
     width: 48,
     height: 48,
@@ -349,10 +356,16 @@ const styles = StyleSheet.create({
   },
 
   /* Navigation Dropdown */
-  menu: {
+    menu: {
+    position: "absolute",
+    top: 60,
+    right: 0,
+    width: 210,
     backgroundColor: GREEN,
-    paddingHorizontal: 18,
-    paddingBottom: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    zIndex: 5,
+    elevation: 5,
   },
 
   menuItem: {
