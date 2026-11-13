@@ -1,4 +1,5 @@
 import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import {
     Image,
     ScrollView,
@@ -110,7 +111,13 @@ export default function AboutUsScreen() {
             activeOpacity={0.7}
             onPress={() => router.push("/overview")}
           >
-            <Text style={styles.overviewBtnText}>VIEW OVERVIEW &gt;</Text>
+            <Text style={styles.overviewBtnText}>VIEW OVERVIEW</Text>
+            <Ionicons
+              name="arrow-forward"
+              size={18}
+              color="#ffffff"
+              accessible={false}
+            />
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -292,6 +299,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     paddingVertical: 14,
     alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: 8,
     marginTop: 10,
   },
   overviewBtnText: {

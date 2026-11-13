@@ -1,4 +1,5 @@
 import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import {
   Image,
   ScrollView,
@@ -121,7 +122,13 @@ export default function OverviewScreen() {
             activeOpacity={0.7}
             onPress={() => router.push("/packages")}
           >
-            <Text style={styles.viewPackagesText}>VIEW PACKAGES &gt;</Text>
+            <Text style={styles.viewPackagesText}>VIEW PACKAGES</Text>
+            <Ionicons
+              name="arrow-forward"
+              size={18}
+              color="#ffffff"
+              accessible={false}
+            />
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -317,6 +324,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     paddingVertical: 16,
     alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: 8,
     marginTop: 20,
   },
   viewPackagesText: {
