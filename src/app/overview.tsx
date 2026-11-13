@@ -7,32 +7,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { BrandHeader } from "../components/brand-header";
 
 export default function OverviewScreen() {
   return (
-    <View style={styles.safeArea}>
-      <View style={styles.headerBar}>
-        <View style={styles.headerLeft}>
-          <Image
-            source={require("../../assets/photos/logo.jpeg")}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-          <View style={styles.brandRow}>
-            <View style={styles.orangeLineSide} />
-            <View style={styles.brandStack}>
-              <Text style={styles.brandAdventure}>ADVENTURE</Text>
-              <Text style={styles.brandEscape}>ESCAPE</Text>
-            </View>
-            <View style={styles.orangeLineSide} />
-          </View>
-        </View>
-        <View style={styles.menuLines}>
-          <View style={styles.menuLine} />
-          <View style={styles.menuLine} />
-          <View style={styles.menuLine} />
-        </View>
-      </View>
+    <SafeAreaView style={styles.safeArea} edges={["top"]}>
+      <BrandHeader />
 
       <ScrollView style={styles.container}>
         <View style={styles.hero}>
@@ -144,7 +125,6 @@ export default function OverviewScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-
       <View style={styles.bottomNav}>
         <View style={styles.navItemWrapper}>
           <TouchableOpacity style={styles.navItemHome} activeOpacity={0.7}>
@@ -170,12 +150,12 @@ export default function OverviewScreen() {
           <Text style={styles.navLabel}>Explore</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: "#ffffff" },
+  safeArea: { flex: 1, backgroundColor: "#ffffff", paddingTop: 12 },
 
   headerBar: {
     flexDirection: "row",

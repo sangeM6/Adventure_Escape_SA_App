@@ -1,5 +1,6 @@
 import { router } from "expo-router";
 import { useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
 import {
   Alert,
   Image,
@@ -9,6 +10,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { BrandHeader } from "../components/brand-header";
 
 const packages = [
   {
@@ -114,29 +117,8 @@ export default function PackagesScreen() {
   }
 
   return (
-    <View style={styles.safeArea}>
-      <View style={styles.headerBar}>
-        <View style={styles.headerLeft}>
-          <Image
-            source={require("../../assets/photos/logo.jpeg")}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-          <View style={styles.brandRow}>
-            <View style={styles.orangeLineSide} />
-            <View style={styles.brandStack}>
-              <Text style={styles.brandAdventure}>ADVENTURE</Text>
-              <Text style={styles.brandEscape}>ESCAPE</Text>
-            </View>
-            <View style={styles.orangeLineSide} />
-          </View>
-        </View>
-        <View style={styles.menuLines}>
-          <View style={styles.menuLine} />
-          <View style={styles.menuLine} />
-          <View style={styles.menuLine} />
-        </View>
-      </View>
+    <SafeAreaView style={styles.safeArea} edges={["top"]}>
+      <BrandHeader />
 
       <ScrollView style={styles.container}>
         <View style={styles.hero}>
@@ -258,25 +240,44 @@ export default function PackagesScreen() {
                 MULTIPLE BOOKING DISCOUNT
               </Text>
               <Text style={styles.discountTextOrange}>- 10% OFF</Text>
-              <TouchableOpacity
-                style={[styles.feesBtn, isFeesPressed && styles.feesBtnPressed]}
-                activeOpacity={0.8}
-                onPress={continueToFees}
-              >
-                <Text
-                  style={[
-                    styles.feesText,
-                    isFeesPressed && styles.feesTextPressed,
-                  ]}
+              <View style={styles.actionButtons}>
+                <TouchableOpacity
+                  style={styles.exploreBtn}
+                  activeOpacity={0.8}
+                  onPress={() => router.push("/explore")}
+                  accessibilityRole="button"
                 >
-                  {isFeesPressed ? "PROCEEDING TO FEES" : "CONTINUE TO FEES >"}
-                </Text>
-              </TouchableOpacity>
+                  <Text style={styles.exploreText}>EXPLORE</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.feesBtn,
+                    isFeesPressed && styles.feesBtnPressed,
+                  ]}
+                  activeOpacity={0.8}
+                  onPress={continueToFees}
+                  accessibilityRole="button"
+                >
+                  <Text
+                    style={[
+                      styles.feesText,
+                      isFeesPressed && styles.feesTextPressed,
+                    ]}
+                  >
+                    {isFeesPressed ? "PROCEEDING TO FEES" : "CONTINUE TO FEES"}
+                  </Text>
+                  <Ionicons
+                    name="arrow-forward"
+                    size={18}
+                    color="#ffffff"
+                    accessible={false}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
       </ScrollView>
-
       <View style={styles.bottomNav}>
         <View style={styles.navItemWrapper}>
           <TouchableOpacity style={styles.navItemHome} activeOpacity={0.7}>
@@ -302,12 +303,12 @@ export default function PackagesScreen() {
           <Text style={styles.navLabel}>Explore</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: "#ffffff" },
+  safeArea: { flex: 1, backgroundColor: "#ffffff", paddingTop: 12 },
 
   headerBar: {
     flexDirection: "row",
@@ -496,10 +497,20 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
   },
+  actionButtons: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+  },
   feesBtn: {
-    backgroundColor: "#14532d",
+    backgroundColor: "#d97706",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
     paddingVertical: 10,
-    paddingHorizontal: 25,
+    paddingHorizontal: 12,
     borderRadius: 5,
   },
   feesBtnPressed: {
@@ -509,11 +520,22 @@ const styles = StyleSheet.create({
   feesText: {
     color: "#ffffff",
     fontWeight: "bold",
-    fontSize: 14,
+    fontSize: 13,
     textTransform: "uppercase",
   },
   feesTextPressed: {
     color: "#fff7ed",
+  },
+  exploreBtn: {
+    backgroundColor: "#d97706",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 5,
+  },
+  exploreText: {
+    color: "#ffffff",
+    fontWeight: "bold",
+    fontSize: 13,
   },
 
   bottomNav: {

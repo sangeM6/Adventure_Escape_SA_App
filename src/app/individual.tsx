@@ -7,32 +7,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { BrandHeader } from "../components/brand-header";
 
 function Header() {
-  return (
-    <View style={styles.headerBar}>
-      <View style={styles.headerLogoGroup}>
-        <Image
-          source={require("../../assets/photos/logo.jpeg")}
-          style={styles.logo}
-          resizeMode="contain"
-        />
-        <View style={styles.logoTextWrapper}>
-          <View style={styles.line} />
-          <View style={styles.brandStack}>
-            <Text style={styles.adventureText}>ADVENTURE</Text>
-            <Text style={styles.escapeText}>ESCAPE</Text>
-          </View>
-          <View style={styles.line} />
-        </View>
-      </View>
-      <TouchableOpacity style={styles.menuButton}>
-        <View style={styles.menuLine} />
-        <View style={styles.menuLine} />
-        <View style={styles.menuLine} />
-      </TouchableOpacity>
-    </View>
-  );
+  return <BrandHeader />;
 }
 
 function BottomNav({ activeTab }: { activeTab: "home" | "explore" }) {
@@ -82,7 +61,7 @@ function BottomNav({ activeTab }: { activeTab: "home" | "explore" }) {
 
 export default function IndividualScreen() {
   return (
-    <View style={styles.safeArea}>
+    <SafeAreaView style={styles.safeArea} edges={["top"]}>
       <Header />
       <ScrollView style={styles.scrollView}>
         <View style={styles.heroContainer}>
@@ -127,9 +106,6 @@ export default function IndividualScreen() {
             </View>
           </View>
 
-          <TouchableOpacity style={styles.btnPrimary}>
-            <Text style={styles.btnPrimaryText}>BOOK</Text>
-          </TouchableOpacity>
           <TouchableOpacity
             style={styles.btnSecondary}
             onPress={() => router.push("/explore")}
@@ -139,12 +115,12 @@ export default function IndividualScreen() {
         </View>
       </ScrollView>
       <BottomNav activeTab="explore" />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: "#FFFFFF" },
+  safeArea: { flex: 1, backgroundColor: "#FFFFFF", paddingTop: 12 },
   headerBar: {
     flexDirection: "row",
     backgroundColor: "#14532D",
@@ -231,13 +207,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   bullet: { fontSize: 15, marginBottom: 8, color: "#444" },
-  btnPrimary: {
-    backgroundColor: "#d97706",
-    paddingVertical: 16,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  btnPrimaryText: { color: "#FFFFFF", fontWeight: "bold", fontSize: 18 },
   btnSecondary: {
     borderColor: "#14532D",
     borderWidth: 1,

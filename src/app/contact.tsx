@@ -11,26 +11,14 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter, type Href } from "expo-router";
+import { BrandHeader, NAV_MENU_ITEMS } from "../components/brand-header";
+import { useRouter } from "expo-router";
 
 const GREEN = "#14532D";
 const ORANGE = "#D97706";
 const WHITE = "#FFFFFF";
 const CHARCOAL = "#1F2933";
 const BLUE = "#0077B6";
-
- const menuItems = [
-    { label: "Home", route: "/" },
-    { label: "Explore", route: "/explore" },
-    { label: "Fees", route: "/fees" },
-    { label: "Booking", route: "/booking" },
-    { label: "Overview", route: "/overview" },
-    { label: "Packages", route: "/packages" },
-    { label: "About Us", route: "/about" },
-    { label: "Contact", route: "/contact" },
-    { label: "Terms & Conditions", route: "/terms" },
-  ];
-
 
 const packages = [
   "Ultimate Adventure Day",
@@ -78,55 +66,21 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       {/* Navigation Bar */}
-      <View style={styles.header}>
-        <View style={styles.brandSection}>
-          <Image
-            source={require("../../assets/images/logo.jpg")}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-
-          <View style={styles.brandText}>
-            <Text style={styles.brandName}>ADVENTURE</Text>
-
-            <View style={styles.brandSubtitleRow}>
-              <View style={styles.orangeLine} />
-              <Text style={styles.brandSubtitle}>ESCAPE</Text>
-              <View style={styles.orangeLine} />
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.diagonalEdge} />
-
-        <View style={styles.menuSection}>
-          <Pressable
-            style={styles.menuButton}
-            onPress={() => setMenuOpen(!menuOpen)}
-            accessibilityRole="button"
-            accessibilityLabel={
-              menuOpen ? "Close navigation menu" : "Open navigation menu"
-            }
-          >
-            <Image
-              source={require("../../assets/images/menu.png")}
-              style={styles.menuIcon}
-              resizeMode="contain"
-            />
-          </Pressable>
-        </View>
-      </View>
+      <BrandHeader
+        menuOpen={menuOpen}
+        onMenuPress={() => setMenuOpen(!menuOpen)}
+      />
 
       {/* Navigation Dropdown */}
       {menuOpen && (
         <View style={styles.menu}>
-          {menuItems.map((item) => (
+          {NAV_MENU_ITEMS.map((item) => (
             <Pressable
               key={item.label}
               style={styles.menuItem}
               onPress={() => {
                 setMenuOpen(false);
-                router.push(item.route as Href);
+                router.navigate(item.route);
               }}
             >
               <Text style={styles.menuText}>{item.label}</Text>

@@ -22,6 +22,10 @@ export default function RootLayout() {
         tabBarLabelStyle: {
           fontSize: 9,
         },
+        tabBarItemStyle: {
+          flex: 1,
+          minWidth: 0,
+        },
       }}
     >
       <Tabs.Screen
@@ -38,6 +42,7 @@ export default function RootLayout() {
         name="explore"
         options={{
           title: "Explore",
+          tabBarStyle: { display: "none" },
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="compass-outline" size={size} color={typeof color === "number" ? GREEN : color ?? GREEN} />
           ),
@@ -68,6 +73,7 @@ export default function RootLayout() {
         name="overview"
         options={{
           title: "Overview",
+          tabBarStyle: { display: "none" },
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="grid-outline" size={size} color={typeof color === "number" ? GREEN : color ?? GREEN} />
           ),
@@ -78,6 +84,7 @@ export default function RootLayout() {
         name="packages"
         options={{
           title: "Packages",
+          tabBarStyle: { display: "none" },
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="briefcase-outline" size={size} color={typeof color === "number" ? GREEN : color ?? GREEN} />
           ),
@@ -88,6 +95,7 @@ export default function RootLayout() {
         name="about"
         options={{
           title: "About",
+          tabBarStyle: { display: "none" },
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="information-circle-outline" size={size} color={typeof color === "number" ? GREEN : color ?? GREEN} />
           ),
@@ -105,9 +113,18 @@ export default function RootLayout() {
       />
 
       {/* Keep these extra pages out of the bottom navigation */}
-      <Tabs.Screen name="individual" options={{ href: null }} />
-      <Tabs.Screen name="privacy" options={{ href: null }} />
-      <Tabs.Screen name="confirmation" options={{ href: null }} />
+      <Tabs.Screen
+        name="individual"
+        options={{ tabBarButton: () => null, tabBarStyle: { display: "none" } }}
+      />
+      <Tabs.Screen
+        name="privacy"
+        options={{ tabBarButton: () => null, tabBarStyle: { display: "none" } }}
+      />
+      <Tabs.Screen
+        name="confirmation"
+        options={{ tabBarButton: () => null, tabBarStyle: { display: "none" } }}
+      />
     </Tabs>
   );
 }

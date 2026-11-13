@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { BrandHeader } from "../components/brand-header";
 
 const experiences = [
   {
@@ -28,29 +30,8 @@ const experiences = [
 
 export default function ExploreScreen() {
   return (
-    <View style={styles.safeArea}>
-      <View style={styles.headerBar}>
-        <View style={styles.headerLeft}>
-          <Image
-            source={require("../../assets/photos/logo.jpeg")}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-          <View style={styles.brandRow}>
-            <View style={styles.orangeLineSide} />
-            <View style={styles.brandStack}>
-              <Text style={styles.brandAdventure}>ADVENTURE</Text>
-              <Text style={styles.brandEscape}>ESCAPE</Text>
-            </View>
-            <View style={styles.orangeLineSide} />
-          </View>
-        </View>
-        <View style={styles.menuLines}>
-          <View style={styles.menuLine} />
-          <View style={styles.menuLine} />
-          <View style={styles.menuLine} />
-        </View>
-      </View>
+    <SafeAreaView style={styles.safeArea} edges={["top"]}>
+      <BrandHeader />
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         <View style={styles.hero}>
@@ -107,11 +88,10 @@ export default function ExploreScreen() {
             activeOpacity={0.8}
             onPress={() => router.push("/privacy")}
           >
-            <Text style={styles.secondaryButtonText}>PRIVACY POLICY</Text>
+            <Text style={styles.secondaryButtonText}>FAQS</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-
       <View style={styles.bottomNav}>
         <TouchableOpacity
           style={styles.navItem}
@@ -135,12 +115,12 @@ export default function ExploreScreen() {
           <View style={styles.activeLine} />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: "#ffffff" },
+  safeArea: { flex: 1, backgroundColor: "#ffffff", paddingTop: 12 },
   headerBar: {
     flexDirection: "row",
     justifyContent: "space-between",
