@@ -125,6 +125,10 @@ export default function RootLayout() {
         name="confirmation"
         options={{ tabBarButton: () => null, tabBarStyle: { display: "none" } }}
       />
+      <Tabs.Screen
+        name="terms"
+        options={{ tabBarButton: () => null, tabBarStyle: { display: "none" } }}
+      />
     </Tabs>
   );
 }

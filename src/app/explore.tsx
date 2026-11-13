@@ -108,7 +108,7 @@ export default function ExploreScreen() {
         <View style={styles.navItem}>
           <Image
             source={require("../../assets/photos/explore-icon.jpeg")}
-            style={styles.navIcon}
+            style={styles.exploreNavIcon}
             resizeMode="contain"
           />
           <Text style={styles.navLabelActive}>Explore</Text>
@@ -287,6 +287,14 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   navIcon: { width: 28, height: 28, marginBottom: 4 },
+  exploreNavIcon: {
+    width: 28,
+    height: 28,
+    marginBottom: 4,
+    borderWidth: 2,
+    borderColor: "#FFFFFF",
+    borderRadius: 6,
+  },
   navLabel: { fontSize: 14, color: "#666666" },
   navLabelActive: {
     fontSize: 14,

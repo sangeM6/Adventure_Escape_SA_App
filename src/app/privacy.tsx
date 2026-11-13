@@ -42,7 +42,7 @@ function BottomNav({ activeTab }: { activeTab: "home" | "explore" }) {
       >
         <Image
           source={require("../../assets/photos/explore-icon.jpeg")}
-          style={styles.navIconImage}
+          style={styles.exploreNavIcon}
           resizeMode="contain"
         />
         <Text
@@ -217,6 +217,14 @@ const styles = StyleSheet.create({
   },
   navItem: { flex: 1, alignItems: "center" },
   navIconImage: { width: 32, height: 32, marginBottom: 4 },
+  exploreNavIcon: {
+    width: 32,
+    height: 32,
+    marginBottom: 4,
+    borderWidth: 2,
+    borderColor: "#FFFFFF",
+    borderRadius: 6,
+  },
   navLabel: { fontSize: 14, color: "#666" },
   navLabelActive: { color: "#000000", fontWeight: "600" },
   activeLine: {
