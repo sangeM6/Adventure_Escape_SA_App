@@ -34,6 +34,7 @@ const menuItems = [
   { label: "Privacy", route: "/privacy" },
   { label: "T&Cs", route: "/terms" },
   { label: "Contact", route: "/contact" },
+  {label:"Confirmation",route:"/confirmation"},
 ];
 const features = [
   {
