@@ -12,7 +12,22 @@ import {
   Image
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { BrandHeader, NAV_MENU_ITEMS } from "../components/brand-header";
+
+const menuItems = [
+  { label: "Home", route: "/" },
+  { label: "About", route: "/about" },
+  { label: "Overview", route: "/overview" },
+  { label: "Packages", route: "/packages" },
+  { label: "Fees", route: "/fees" },
+  { label: "Booking", route: "/booking" },
+  { label: "Explore", route: "/explore" },
+  { label: "Individual", route: "/individual" },
+  { label: "FAQs", route: "/faq" },
+  { label: "Privacy", route: "/privacy" },
+  { label: "T&Cs", route: "/terms" },
+  { label: "Contact", route: "/contact" },
+  {label:"Confirmation", route:"/confirmation"},
+];
 
 const GREEN = "#14532D";
 const ORANGE = "#D97706";
@@ -207,13 +222,13 @@ function changeQuantity(id: string, change: number) {
         {/* Navigation Dropdown */}
         {menuOpen && (
           <View style={styles.menu}>
-            {NAV_MENU_ITEMS.map((item) => (
+            {menuItems.map((item) => (
               <Pressable
                 key={item.label}
                 style={styles.menuItem}
                 onPress={() => {
                   setMenuOpen(false);
-                  router.navigate(item.route);
+                  router.push(item.route as any);
                 }}
               >
                 <Text style={styles.menuText}>{item.label}</Text>

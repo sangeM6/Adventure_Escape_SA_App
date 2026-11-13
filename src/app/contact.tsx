@@ -11,7 +11,6 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { BrandHeader, NAV_MENU_ITEMS } from "../components/brand-header";
 import { useRouter } from "expo-router";
 
 const GREEN = "#14532D";
@@ -25,6 +24,21 @@ const packages = [
   "Family Explorer Package",
   "Mountain Adventure Package",
   "Corporate Team Challenge",
+];
+const menuItems = [
+  { label: "Home", route: "/" },
+  { label: "About", route: "/about" },
+  { label: "Overview", route: "/overview" },
+  { label: "Packages", route: "/packages" },
+  { label: "Fees", route: "/fees" },
+  { label: "Booking", route: "/booking" },
+  { label: "Explore", route: "/explore" },
+  { label: "Individual", route: "/individual" },
+  { label: "FAQs", route: "/faq" },
+  { label: "Privacy", route: "/privacy" },
+  { label: "T&Cs", route: "/terms" },
+  { label: "Contact", route: "/contact" },
+  {label:"Confirmation", route:"/confirmation"},
 ];
 
 export default function HomeScreen() {
@@ -66,21 +80,60 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       {/* Navigation Bar */}
-      <BrandHeader
-        menuOpen={menuOpen}
-        onMenuPress={() => setMenuOpen(!menuOpen)}
-      />
+      
+            <View style={styles.header}>
+      
+              {/* White Logo Section */}
+              <View style={styles.brandSection}>
+                <Image
+                  source={require("../../assets/images/logo.jpg")}
+                  style={styles.logo}
+                  resizeMode="contain"
+                />
+      
+                <View style={styles.brandText}>
+                  <Text style={styles.brandName}>ADVENTURE</Text>
+      
+                  <View style={styles.brandSubtitleRow}>
+                    <View style={styles.orangeLine} />
+                    <Text style={styles.brandSubtitle}>ESCAPE</Text>
+                    <View style={styles.orangeLine} />
+                  </View>
+                </View>
+              </View>
+      
+              {/* Diagonal White Edge */}
+              <View style={styles.diagonalEdge} />
+      
+              {/* Green Menu Section */}
+              <View style={styles.menuSection}>
+                <Pressable
+                  style={styles.menuButton}
+                  onPress={() => setMenuOpen(!menuOpen)}
+                  accessibilityRole="button"
+                  accessibilityLabel={
+                    menuOpen ? "Close navigation menu" : "Open navigation menu"
+                  }
+                >
+                  <Image
+                    source={require("../../assets/images/menu.png")}
+                    style={styles.menuIcon}
+                    resizeMode="contain"
+                  />
+                </Pressable>
+              </View>
+            </View>
 
       {/* Navigation Dropdown */}
       {menuOpen && (
         <View style={styles.menu}>
-          {NAV_MENU_ITEMS.map((item) => (
+          {menuItems.map((item) => (
             <Pressable
               key={item.label}
               style={styles.menuItem}
               onPress={() => {
                 setMenuOpen(false);
-                router.navigate(item.route);
+                router.push(item.route as any);
               }}
             >
               <Text style={styles.menuText}>{item.label}</Text>
