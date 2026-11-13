@@ -21,6 +21,20 @@ const CHARCOAL = "#1F2933";
 const BLUE = "#0077B6";
 const LIGHT_BLUE = "#DEF1F5";
 
+const menuItems = [
+  { label: "Home", route: "/" },
+  { label: "About", route: "/about" },
+  { label: "Overview", route: "/overview" },
+  { label: "Packages", route: "/packages" },
+  { label: "Fees", route: "/fees" },
+  { label: "Booking", route: "/booking" },
+  { label: "Explore", route: "/explore" },
+  { label: "Individual", route: "/individual" },
+  { label: "FAQs", route: "/faq" },
+  { label: "Privacy", route: "/privacy" },
+  { label: "T&Cs", route: "/terms" },
+  { label: "Contact", route: "/contact" },
+];
 const features = [
   {
     icon: require("../../assets/images/hiking-icon.png"),
@@ -41,6 +55,20 @@ const features = [
     icon: require("../../assets/images/wave (1).png"),
     title: "Memories",
     description: "Create unforgettable moments.",
+  },
+];
+const natureHighlights = [
+  {
+    title: "NATURE",
+    description: "Discover the beauty of the Western Cape.",
+  },
+  {
+    title: "ADVENTURE",
+    description: "Find exciting experiences in the great outdoors.",
+  },
+  {
+    title: "DISCOVER",
+    description: "Make unforgettable memories along the way.",
   },
 ];
 const activities = [
@@ -74,16 +102,20 @@ const activities = [
 export default function HomeScreen() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+
   const [fontsLoaded] = useFonts({
     JosefinItalic: JosefinSans_400Regular_Italic,
   });
+
   if (!fontsLoaded) {
     return null;
   }
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
+
       {/* Navigation Bar */}
+<<<<<<< HEAD
       <BrandHeader
         menuOpen={menuOpen}
         onMenuPress={() => setMenuOpen(!menuOpen)}
@@ -106,10 +138,74 @@ export default function HomeScreen() {
                  ))}
                </View>
              )}
+=======
+      <View style={styles.header}>
+
+        {/* White Logo Section */}
+        <View style={styles.brandSection}>
+          <Image
+            source={require("../../assets/images/logo.jpg")}
+            style={styles.logo}
+            resizeMode="contain"
+          />
+
+          <View style={styles.brandText}>
+            <Text style={styles.brandName}>ADVENTURE</Text>
+
+            <View style={styles.brandSubtitleRow}>
+              <View style={styles.orangeLine} />
+              <Text style={styles.brandSubtitle}>ESCAPE</Text>
+              <View style={styles.orangeLine} />
+            </View>
+          </View>
+        </View>
+
+        {/* Diagonal White Edge */}
+        <View style={styles.diagonalEdge} />
+
+        {/* Green Menu Section */}
+        <View style={styles.menuSection}>
+          <Pressable
+            style={styles.menuButton}
+            onPress={() => setMenuOpen(!menuOpen)}
+            accessibilityRole="button"
+            accessibilityLabel={
+              menuOpen ? "Close navigation menu" : "Open navigation menu"
+            }
+          >
+            <Image
+              source={require("../../assets/images/menu.png")}
+              style={styles.menuIcon}
+              resizeMode="contain"
+            />
+          </Pressable>
+        </View>
+      </View>
+
+      {/* Navigation Dropdown */}
+      {menuOpen && (
+        <View style={styles.menu}>
+          {menuItems.map((item) => (
+            <Pressable
+              key={item.label}
+              style={styles.menuItem}
+              onPress={() => {
+                setMenuOpen(false);
+                router.push(item.route as any);
+              }}
+            >
+              <Text style={styles.menuText}>{item.label}</Text>
+            </Pressable>
+          ))}
+        </View>
+      )}
+
+>>>>>>> ef1bde6 (Zusange Mbaleki)
       <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
+
         {/* Hero Section */}
         <ImageBackground
           source={require("../../assets/images/hero.png")}
@@ -133,7 +229,9 @@ export default function HomeScreen() {
               onPress={() => router.push("/packages" as Href)}
               accessibilityRole="button"
             >
-              <Text style={styles.primaryButtonText}>Explore Packages</Text>
+              <Text style={styles.primaryButtonText}>
+                Explore Packages
+              </Text>
             </Pressable>
 
             <Pressable
@@ -141,14 +239,18 @@ export default function HomeScreen() {
               onPress={() => router.push("/contact" as Href)}
               accessibilityRole="button"
             >
-              <Text style={styles.secondaryButtonText}>Get a Quotation</Text>
+              <Text style={styles.secondaryButtonText}>
+                Get a Quotation
+              </Text>
             </Pressable>
           </View>
         </ImageBackground>
 
         {/* Features Section */}
         <View style={styles.featuresSection}>
-          <Text style={styles.sectionHeading}>YOUR NEXT ADVENTURE</Text>
+          <Text style={styles.sectionHeading}>
+            YOUR NEXT ADVENTURE
+          </Text>
 
           <Text style={styles.sectionSubtitle}>
             Discover what makes us special
@@ -156,14 +258,19 @@ export default function HomeScreen() {
 
           <View style={styles.featuresGrid}>
             {features.map((feature) => (
-              <View style={styles.featureCard} key={feature.title}>
+              <View
+                style={styles.featureCard}
+                key={feature.title}
+              >
                 <Image
                   source={feature.icon}
                   style={styles.featureIcon}
                   resizeMode="contain"
                 />
 
-                <Text style={styles.featureTitle}>{feature.title}</Text>
+                <Text style={styles.featureTitle}>
+                  {feature.title}
+                </Text>
 
                 <Text style={styles.featureDescription}>
                   {feature.description}
@@ -175,15 +282,22 @@ export default function HomeScreen() {
 
         {/* Our Activities Section */}
         <View style={styles.activitiesSection}>
-          <Text style={styles.activitiesHeading}>OUR ACTIVITIES</Text>
+          <Text style={styles.activitiesHeading}>
+            OUR ACTIVITIES
+          </Text>
 
-          <Text style={styles.activitiesSubtitle}>CHOOSE YOUR ADVENTURE</Text>
+          <Text style={styles.activitiesSubtitle}>
+            CHOOSE YOUR ADVENTURE
+          </Text>
 
           <View style={styles.activitiesUnderline} />
 
           <View style={styles.activitiesGrid}>
             {activities.map((activity) => (
-              <View style={styles.activityCard} key={activity.title}>
+              <View
+                style={styles.activityCard}
+                key={activity.title}
+              >
                 <Image
                   source={activity.image}
                   style={styles.activityImage}
@@ -198,17 +312,21 @@ export default function HomeScreen() {
                   />
                 </View>
 
-                <Text style={styles.activityTitle}>{activity.title}</Text>
+                <Text style={styles.activityTitle}>
+                  {activity.title}
+                </Text>
               </View>
             ))}
           </View>
         </View>
+
       </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+
   safeArea: {
     flex: 1,
     backgroundColor: WHITE,
@@ -224,32 +342,39 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
   },
 
-
   menuButton: {
-    padding: 8,
+    width: 42,
+    height: 42,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   menuIcon: {
-    width: 30,
-    height: 30,
+    width: 27,
+    height: 27,
   },
 
-  menuDropdown: {
+  menu: {
+    position: "absolute",
+    top: 60,
+    right: 0,
+    width: 210,
     backgroundColor: GREEN,
-    paddingHorizontal: 20,
-    paddingBottom: 12,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    zIndex: 5,
+    elevation: 5,
   },
 
   menuItem: {
-    paddingVertical: 12,
+    paddingVertical: 11,
     borderBottomWidth: 1,
-    borderBottomColor: "rgba(255,255,255,0.2)",
+    borderBottomColor: "rgba(255,255,255,0.18)",
   },
 
-  menuItemText: {
+  menuText: {
     color: WHITE,
-    fontSize: 15,
-    fontWeight: "500",
+    fontSize: 14,
   },
 
   content: {
@@ -258,6 +383,7 @@ const styles = StyleSheet.create({
   },
 
   /* Hero */
+
   hero: {
     minHeight: 300,
     justifyContent: "center",
@@ -290,10 +416,8 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     marginTop: 5,
     fontFamily: "JosefinItalic",
-    fontStyle: "italic"
+    fontStyle: "italic",
   },
-
-  
 
   heroDescription: {
     color: WHITE,
@@ -337,6 +461,7 @@ const styles = StyleSheet.create({
   },
 
   /* Features */
+
   featuresSection: {
     backgroundColor: WHITE,
     paddingHorizontal: 16,
@@ -388,7 +513,8 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     textAlign: "center",
   },
-  heroOrangeLine:{
+
+  heroOrangeLine: {
     width: 135,
     height: 2,
     backgroundColor: ORANGE,
@@ -405,6 +531,7 @@ const styles = StyleSheet.create({
   },
 
   /* Activities */
+
   activitiesSection: {
     backgroundColor: LIGHT_BLUE,
     paddingHorizontal: 12,
@@ -497,25 +624,26 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 14,
   },
-   /* Navigation Bar */
- header: {
-  width: "100%",
-  height: 60,
-  flexDirection: "row",
-  alignItems: "stretch",
-  backgroundColor: GREEN,
-},
+
+  /* Navigation Bar */
+
+  header: {
+    height: 60,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: GREEN,
+    zIndex: 2,
+  },
 
   brandSection: {
-  width: 174,
-  flexShrink: 0,
-  backgroundColor: WHITE,
-  flexDirection: "row",
-  alignItems: "center",
-  paddingLeft: 12,
-  gap: 8,
-  zIndex: 1,
-},
+    width: 174,
+    height: 60,
+    backgroundColor: WHITE,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: 10,
+    gap: 7,
+  },
 
   logo: {
     width: 52,
@@ -523,12 +651,13 @@ const styles = StyleSheet.create({
   },
 
   brandText: {
+    flex: 1,
     justifyContent: "center",
   },
 
   brandName: {
     color: GREEN,
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: "800",
     letterSpacing: 1,
   },
@@ -536,71 +665,47 @@ const styles = StyleSheet.create({
   brandSubtitleRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    gap: 5,
+    gap: 4,
     marginTop: 3,
-    fontSize: 14,
-    
   },
 
-brandSubtitle: {
-  color: BLUE,
-  fontSize: 14,
-  fontWeight: "800",
-  letterSpacing: 2,
-},
-
   orangeLine: {
-    width: 15,
     height: 2,
+    width: 13,
     backgroundColor: ORANGE,
   },
 
- diagonalEdge: {
-  width: 0,
-  height: 0,
-  borderTopWidth: 60,
-  borderTopColor: WHITE,
-  borderRightWidth: 15,
-  borderRightColor: "transparent",
-  position: "absolute",
-  left: 174,
-  top: 0,
-  zIndex: 2,
-},
+  brandSubtitle: {
+    color: GREEN,
+    fontSize: 10,
+    fontWeight: "700",
+    letterSpacing: 1,
+  },
+
+  diagonalEdge: {
+    width: 0,
+    height: 0,
+    borderTopWidth: 60,
+    borderTopColor: WHITE,
+    borderRightWidth: 22,
+    borderRightColor: "transparent",
+  },
 
   menuSection: {
     flex: 1,
+    height: 60,
     backgroundColor: GREEN,
     alignItems: "flex-end",
     justifyContent: "center",
-    marginLeft: 15,
+    paddingRight: 18,
   },
 
+  /* Brand */
 
-
-  /* Dropdown Menu */
-  menu: {
-    backgroundColor: GREEN,
-    paddingHorizontal: 18,
-    paddingBottom: 10,
-  },
-
- 
-
-  menuText: {
-    color: WHITE,
-    fontSize: 15,
-    fontWeight: "500",
-  },
-
- 
   brandContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
-
-
 
   brandAdventure: {
     color: ORANGE,
@@ -631,7 +736,9 @@ brandSubtitle: {
     letterSpacing: 0.5,
     textAlign: "center",
   },
+
   /* Nature Highlights */
+
   natureHighlightsSection: {
     flexDirection: "row",
     backgroundColor: "#FFFFFF",
