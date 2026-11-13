@@ -93,7 +93,11 @@ useEffect(() => {
     0
   );
 
-  const discountRate = totalAdventureQuantity >= 2 ? 0.1 : 0;
+  const discountRate = 
+    totalAdventureQuantity === 2 ? 0.05:
+    totalAdventureQuantity === 3 ? 0.10:
+    totalAdventureQuantity > 3 ? 0.15 : 0;
+
 
 
   const subtotal = selectedItems.reduce(
@@ -313,7 +317,7 @@ function changeQuantity(id: string, change: number) {
             <View style={styles.summaryRow}>
               <Text style={styles.summaryLabel}>Discount</Text>
               <Text style={styles.summaryValue}>
-                {discountRate > 0 ? "10%" : "0%"}
+                {(discountRate * 100 ).toFixed(0)}%
               </Text>
             </View>
 
