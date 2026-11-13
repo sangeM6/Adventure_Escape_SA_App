@@ -170,6 +170,10 @@ function changeQuantity(id: string, change: number) {
         email: email.trim(),
       },
     });
+    //clear the fees page input fields 
+    setName("");
+    setPhone("");
+    setEmail("");
   }
 
   return (
