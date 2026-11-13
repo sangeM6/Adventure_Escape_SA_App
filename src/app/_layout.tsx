@@ -29,7 +29,7 @@ export default function RootLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={size} color={color} />
+            <Ionicons name="home-outline" size={size} color={typeof color === "number" ? GREEN : color ?? GREEN} />
           ),
         }}
       />
@@ -39,7 +39,7 @@ export default function RootLayout() {
         options={{
           title: "Explore",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="compass-outline" size={size} color={color} />
+            <Ionicons name="compass-outline" size={size} color={typeof color === "number" ? GREEN : color ?? GREEN} />
           ),
         }}
       />
@@ -49,7 +49,7 @@ export default function RootLayout() {
         options={{
           title: "Fees",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="calculator-outline" size={size} color={color} />
+            <Ionicons name="calculator-outline" size={size} color={typeof color === "number" ? GREEN : color ?? GREEN} />
           ),
         }}
       />
@@ -59,7 +59,7 @@ export default function RootLayout() {
         options={{
           title: "Booking",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="calendar-outline" size={size} color={color} />
+            <Ionicons name="calendar-outline" size={size} color={typeof color === "number" ? GREEN : color ?? GREEN} />
           ),
         }}
       />
@@ -69,7 +69,7 @@ export default function RootLayout() {
         options={{
           title: "Overview",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="grid-outline" size={size} color={color} />
+            <Ionicons name="grid-outline" size={size} color={typeof color === "number" ? GREEN : color ?? GREEN} />
           ),
         }}
       />
@@ -79,7 +79,7 @@ export default function RootLayout() {
         options={{
           title: "Packages",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="briefcase-outline" size={size} color={color} />
+            <Ionicons name="briefcase-outline" size={size} color={typeof color === "number" ? GREEN : color ?? GREEN} />
           ),
         }}
       />
@@ -89,7 +89,7 @@ export default function RootLayout() {
         options={{
           title: "About",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="information-circle-outline" size={size} color={color} />
+            <Ionicons name="information-circle-outline" size={size} color={typeof color === "number" ? GREEN : color ?? GREEN} />
           ),
         }}
       />
@@ -99,7 +99,7 @@ export default function RootLayout() {
         options={{
           title: "Contact",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="call-outline" size={size} color={color} />
+            <Ionicons name="call-outline" size={size} color={typeof color === "number" ? GREEN : color ?? GREEN} />
           ),
         }}
       />

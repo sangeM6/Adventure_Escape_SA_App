@@ -7,6 +7,9 @@
     "icon": "./assets/images/icon.png",
     "scheme": "adventureescapesaapp",
     "userInterfaceStyle": "light",
+    "web": {
+      "output": "static"
+    },
     "android": {
       "predictiveBackGestureEnabled": false
     },
