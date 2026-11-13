@@ -1,6 +1,6 @@
 
 import { useLocalSearchParams,Href, useRouter } from "expo-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {SafeAreaView} from "react-native-safe-area-context"
 import { BrandHeader, NAV_MENU_ITEMS } from "../components/brand-header";
 import {
@@ -12,6 +12,7 @@ import {
   Text,
   TextInput,
   View,
+  Image
 } from "react-native";
 
 const GREEN = "#14532D";
@@ -33,22 +34,60 @@ const times = [
 
 export default function BookingScreen() {
   const router = useRouter();
-  const { selections, total: totalParam } = useLocalSearchParams<{
-  selections?: string | string[];
-  total?: string | string[];
-}>();
+   const { selections, total: totalParam } = useLocalSearchParams<{
+    selections?: string | string[];
+    total?: string | string[];
+  }>();
 
-const selectionData = Array.isArray(selections)
-  ? selections[0]
-  : selections;
+  const selectionData = Array.isArray(selections)
+    ? selections[0]
+    : selections;
 
-const selectedItems = selectionData
-  ? JSON.parse(selectionData)
-  : [];
+  const selectedItems: {
+    id: string;
+    title: string;
+    price: number;
+    quantity: number;
+  }[] = (() => {
+    try {
+      const parsed = selectionData
+        ? JSON.parse(selectionData)
+        : [];
 
-const total = Number(
-  Array.isArray(totalParam) ? totalParam[0] : totalParam
-) || 0;
+      if (!Array.isArray(parsed)) {
+        return [];
+      }
+
+      return parsed.map((item: any, index: number) => ({
+        id: String(item.id ?? index),
+        title: String(item.title ?? item.name ?? "Selected adventure"),
+        price: Number(
+          String(item.price ?? 0).replace(/[^0-9.]/g, "")
+        ) || 0,
+        quantity: Number(item.quantity) > 0
+          ? Number(item.quantity)
+          : 1,
+      }));
+
+    } catch (error) {
+      console.warn("Could not read booking selections:", error);
+      return [];
+    }
+  })();
+
+  const passedTotal = Number(
+    Array.isArray(totalParam) ? totalParam[0] : totalParam
+  );
+
+  const total = Number.isFinite(passedTotal) && passedTotal > 0
+    ? passedTotal
+    : selectedItems.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+
+
+
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [date, setDate] = useState("");
@@ -104,10 +143,49 @@ function submitBooking() {
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
       {/* Navigation Bar */}
-      <BrandHeader
-        menuOpen={menuOpen}
-        onMenuPress={() => setMenuOpen(!menuOpen)}
-      />
+       <View style={styles.header}>
+              
+                      {/* White Logo Section */}
+                      <View style={styles.brandSection}>
+                        <Image
+                          source={require("../../assets/images/logo.jpg")}
+                          style={styles.logo}
+                          resizeMode="contain"
+                        />
+              
+                        <View style={styles.brandText}>
+                          <Text style={styles.brandName}>ADVENTURE</Text>
+              
+                          <View style={styles.brandSubtitleRow}>
+                            <View style={styles.orangeLine} />
+                            <Text style={styles.brandSubtitle}>ESCAPE</Text>
+                            <View style={styles.orangeLine} />
+                          </View>
+                        </View>
+                      </View>
+              
+                      {/* Diagonal White Edge */}
+                      <View style={styles.diagonalEdge} />
+              
+                      {/* Green Menu Section */}
+                      <View style={styles.menuSection}>
+                        <Pressable
+                          style={styles.menuButton}
+                          onPress={() => setMenuOpen(!menuOpen)}
+                          accessibilityRole="button"
+                          accessibilityLabel={
+                            menuOpen ? "Close navigation menu" : "Open navigation menu"
+                          }
+                        >
+                          <Image
+                            source={require("../../assets/images/menu.png")}
+                            style={styles.menuIcon}
+                            resizeMode="contain"
+                          />
+                        </Pressable>
+                      </View>
+                    </View>
+    
            
                    {/* Navigation Dropdown */}
                    {menuOpen && (
@@ -336,6 +414,25 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
   },
   
+  navbar: {
+    height: 70,
+    backgroundColor: GREEN,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 18,
+  },
+    menu: {
+    position: "absolute",
+    top: 60,
+    right: 0,
+    width: 210,
+    backgroundColor: GREEN,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    zIndex: 5,
+    elevation: 5,
+  },
 
   menuButton: {
     padding: 8,
@@ -732,11 +829,7 @@ brandSubtitle: {
 
 
   /* Dropdown Menu */
-  menu: {
-    backgroundColor: GREEN,
-    paddingHorizontal: 18,
-    paddingBottom: 10,
-  },
+ 
 
  
 
