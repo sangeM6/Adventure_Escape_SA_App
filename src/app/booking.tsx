@@ -21,6 +21,22 @@ const WHITE = "#FFFFFF";
 const CHARCOAL = "#1F2933";
 const BLUE = "#0077B6";
 
+const menuItems = [
+  { label: "Home", route: "/" },
+  { label: "About", route: "/about" },
+  { label: "Overview", route: "/overview" },
+  { label: "Packages", route: "/packages" },
+  { label: "Fees", route: "/fees" },
+  { label: "Booking", route: "/booking" },
+  { label: "Explore", route: "/explore" },
+  { label: "Individual", route: "/individual" },
+  { label: "FAQs", route: "/faq" },
+  { label: "Privacy", route: "/privacy" },
+  { label: "T&Cs", route: "/terms" },
+  { label: "Contact", route: "/contact" },
+  {label:"Confirmation",route:"/confirmation"},
+];
+
 const times = [
   "08:00 AM",
   "09:00 AM",
@@ -190,13 +206,13 @@ function submitBooking() {
                    {/* Navigation Dropdown */}
                    {menuOpen && (
                      <View style={styles.menu}>
-                       {NAV_MENU_ITEMS.map((item) => (
+                       {menuItems.map((item) => (
                          <Pressable
                            key={item.label}
                            style={styles.menuItem}
                            onPress={() => {
                              setMenuOpen(false);
-                             router.navigate(item.route);
+                             router.push(item.route as any);
                            }}
                          >
                            <Text style={styles.menuText}>{item.label}</Text>
