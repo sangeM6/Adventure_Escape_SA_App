@@ -108,7 +108,12 @@ export default function BookingScreen() {
         (sum, item) => sum + item.price * item.quantity,
         0
       );
-
+  const summaryParams = {
+  selections: JSON.stringify(selectedItems),
+  subtotal: Array.isArray(subtotalParam) ? subtotalParam[0] : subtotalParam ?? "",
+  discount: Array.isArray(discountParam) ? discountParam[0] : discountParam ?? "",
+  total: String(total),
+};
 
 
 
@@ -219,10 +224,9 @@ function submitBooking() {
                            style={styles.menuItem}
                            onPress={() => {
                              setMenuOpen(false);
-                             router.push({pathname:item.route as any, params: {
-                              selections:JSON.stringify(selectedItems),
-                              total:String(total)
-                             }});
+                             router.push({pathname:item.route as any, params: summaryParams
+                              
+                             });
                            }}
                          >
                            <Text style={styles.menuText}>{item.label}</Text>
@@ -381,7 +385,7 @@ function submitBooking() {
 
         <Pressable
           style={styles.termsLink}
-          onPress={() => router.push("/terms" as Href)}
+          onPress={() => router.push({pathname:"/terms", params: summaryParams,})}
         >
           <Text style={styles.termsLinkText}>
             Read Terms and Conditions
