@@ -50,10 +50,17 @@ const times = [
 
 export default function BookingScreen() {
   const router = useRouter();
-   const { selections, total: totalParam } = useLocalSearchParams<{
-    selections?: string | string[];
-    total?: string | string[];
-  }>();
+   const {
+  selections,
+  subtotal: subtotalParam,
+  discount: discountParam,
+  total: totalParam,
+} = useLocalSearchParams<{
+  selections?: string | string[];
+  subtotal?: string | string[];
+  discount?: string | string[];
+  total?: string | string[];
+}>();
 
   const selectionData = Array.isArray(selections)
     ? selections[0]
