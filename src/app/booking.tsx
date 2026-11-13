@@ -47,22 +47,9 @@ const times = [
 
 export default function BookingScreen() {
   const router = useRouter();
-  const {
-  selections,
-  subtotal: subtotalParam,
-  discount: discountParam,
-  total: totalParam,
-  name,
-  phone,
-  email,
-} = useLocalSearchParams<{
+  const { selections, total: totalParam } = useLocalSearchParams<{
   selections?: string | string[];
-  subtotal?: string | string[];
-  discount?: string | string[];
   total?: string | string[];
-  name?: string | string[];
-  phone?: string | string[];
-  email?: string | string[];
 }>();
 
 const selectionData = Array.isArray(selections)
@@ -72,14 +59,6 @@ const selectionData = Array.isArray(selections)
 const selectedItems = selectionData
   ? JSON.parse(selectionData)
   : [];
-
-const subtotal = Number(
-  Array.isArray(subtotalParam) ? subtotalParam[0] : subtotalParam
-) || 0;
-
-const discount = Number(
-  Array.isArray(discountParam) ? discountParam[0] : discountParam
-) || 0;
 
 const total = Number(
   Array.isArray(totalParam) ? totalParam[0] : totalParam

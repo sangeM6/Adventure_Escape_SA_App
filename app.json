@@ -4,7 +4,7 @@
     "slug": "adventure-escape-sa",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.jpg",
+    "icon": "./assets/images/icon.png",
     "scheme": "adventureescapesaapp",
     "userInterfaceStyle": "light",
     "android": {

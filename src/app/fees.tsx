@@ -1,6 +1,6 @@
 
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Alert,
   Image,
@@ -26,6 +26,33 @@ type SelectedItem = {
   quantity: number;
 };
 
+function parseSelectionData(selectionData?: string): SelectedItem[] {
+  if (!selectionData) {
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(selectionData);
+
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed.map((item) => {
+      const price = Number(String(item.price ?? "").replace(/[^0-9.-]/g, ""));
+
+      return {
+        id: String(item.id ?? ""),
+        title: String(item.title ?? item.name ?? "Adventure"),
+        price: Number.isFinite(price) ? price : 0,
+        quantity: Math.max(1, Number(item.quantity) || 1),
+      };
+    });
+  } catch {
+    return [];
+  }
+}
+
 export default function Fees() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -50,41 +77,9 @@ export default function Fees() {
     ? selections[0]
     : selections;
 
-  const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([]);
-
-  
-useEffect(() => {
-  if (!selectionData) {
-    setSelectedItems([]);
-    return;
-  }
-
-  try {
-    const parsed = JSON.parse(selectionData);
-
-    if (Array.isArray(parsed)) {
-      const formattedItems: SelectedItem[] = parsed.map((item) => {
-        const price = Number(
-          String(item.price ?? "").replace(/[^0-9.-]/g, "")
-        );
-
-        return {
-          id: String(item.id ?? ""),
-          title: String(item.title ?? item.name ?? "Adventure"),
-          price: Number.isFinite(price) ? price : 0,
-          quantity: Math.max(1, Number(item.quantity) || 1),
-        };
-      });
-
-      setSelectedItems(formattedItems);
-    } else {
-      setSelectedItems([]);
-    }
-  } catch {
-    setSelectedItems([]);
-  }
-}, [selectionData]);
-
+  const [selectedItems, setSelectedItems] = useState<SelectedItem[]>(() =>
+    parseSelectionData(selectionData)
+  );
 
   const hasSelections = selectedItems.length > 0;
 

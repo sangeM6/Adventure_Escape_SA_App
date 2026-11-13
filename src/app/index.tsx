@@ -54,21 +54,6 @@ const features = [
     description: "Create unforgettable moments.",
   },
 ];
-const natureHighlights = [
-  {
-    title: "NATURE",
-    description: "Discover the beauty of the Western Cape.",
-  },
-  {
-    title: "ADVENTURE",
-    description: "Find exciting experiences in the great outdoors.",
-  },
-  {
-    title: "DISCOVER",
-    description: "Make unforgettable memories along the way.",
-  },
-];
-
 const activities = [
   {
     title: "Hiking Tours",
@@ -94,24 +79,6 @@ const activities = [
     title: "Beach Adventures",
     image: require("../../assets/images/penguins.jpg"),
     icon: require("../../assets/images/wave (1).png"),
-  },
-];
-
-const reasons = [
-  {
-    title: "Beautiful Destinations",
-    description:
-      "Explore amazing outdoor destinations throughout the Western Cape.",
-  },
-  {
-    title: "Exciting Activities",
-    description:
-      "Choose from a range of exciting adventures for different interests.",
-  },
-  {
-    title: "Memorable Experiences",
-    description:
-      "Create special memories with friends, family, and colleagues.",
   },
 ];
 
